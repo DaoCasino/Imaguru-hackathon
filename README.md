@@ -22,7 +22,7 @@
 
 ### :game_die: Сделать игру c использованием DAO.Casino SDK
 
-SDK и документация https://developers.dao.casino/
+[SDK и документация](https://hackathon.dao.casino/)
 
 ### :video_game: Интегрировать элементы протокола в игру
 
