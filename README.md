@@ -1,10 +1,10 @@
-# DAO.Casino Hackathon
+# DAO.Casino Hack Tasks for Malta Blockchain Hackathon
 
 ![DAOCasino Logo](/images/pattern.jpg)
 
-Команда DAO.Casino рада приветствовать вас на хакатоне!
-Мы подготовили для вас несколько крутых задач. Н
-е упустите свой шанс попробовать свои силы в создании блокчейн-игр!
+DAO.Casino revolutionizes the iGaming industry with its cutting-edge two-layer Protocol based on Ethereum. The Protocol automates transactions and facilitates interactions between all potential participants: casino operators, game developers, and affiliates. 
+Our SDK enables any developer to create blockchain games and apps without solid knowledge of cryptography or cryptocurrencies. The distributed ledger technology ensures unlimited access to games from any location connected to the Internet.
+DAO.Casino team is fully committed to delivering best products that make the gambling industry a better place.
 
 Присоединяйтесь к нашему чату в [telegram](https://t.me/daocasino_developers)
 Удачи!
@@ -16,103 +16,101 @@
 - [Технические требования](#Технические-требования)
 - [Правила подачи решений](#Процедура-подачи-работ-от-участников)
 
-## Задачи
+## Tasks
 
-Мы предлагаем вам несколько задач по улучшению нашего протокола. Авторы лучших решений и реализаций будут вознаграждены в рамках номинаций, либо отдельно на усмотрение нашей команды.
+Here are several tasks aimed at improving our protocol. Best solutions and implementations will be rewarded according to the nominations or separately at the team’s discretion.
 
-### :game_die: Сделать игру c использованием DAO.Casino SDK
+### :game_die: Use DAO.Casino SDK to create a game
 
-[SDK и документация](https://hackathon.dao.casino/)
+For the SDK and documentation navigate to [hackathon page](https://hackathon.dao.casino/)
 
-### :video_game: Интегрировать элементы протокола в игру
+### :video_game: Integrate the protocol elements to your game 
 
-Например, в существующую игру вы добавляете механику, основанную на элементах нашего протокола (Signidice, GameChannels)
+For instance, add functionality based on elements of our protocol (Signidice, GameChannels) to an existing game.
 
-### :cat: Создать chrome extension для работы с играми:
+### :cat: Create a gambling Chrome extension:
 
-разработать браузерное расширение (форк/аналог [metamask](https://metamask.io/)) который позволит:
+Develop a browser extension (metamask fork/equivalent) that allows:
+ - importing/creating accounts (private keys/ mnemonic);
+ - receiving data from iframe, signing it with private key (without request to a user) and sending the signature back to iframe.
+ - validating received data and displaying warnings in case of invalidity; saving data and relevant signatures, implementing  - integration with web3js 1.0
+Optional tasks:
+ - Provide a convenient display option for the signed data; implement data request from the game smart-contract;
+ - Implement data sending to the game smart contract;
+ - Implement integration with gameChannels where responses are made only to signatures from gameChannels(open/update/close/gameRound) function;
+ - Ensure storage of smart-contract/site/public key Whitelist/ Blacklist.
 
- - импортировать/создать аккаунт (приватный ключ / mnemonic) 
- - принимать данные из iframe, и подписывать эти данные приватным ключом (без спроса пользователя) и передавать подпись обратно в iframe.
- - уметь валидировать приходящие данные и в случае невалидность выдавать предупреждение
- - сохранять данные и подписи этих данных
- - иметь интеграцию с web3js 1.0
-
-Опционально предлагается:
-
- - Отобразить в доступном виде данные, которые подписывались, 
- - иметь возможность запрашивать данные со смарт-контракта
- - иметь возможность отправлять данные на смарт-контракт,
- - иметь интеграцию с gameChannels, отзываться только на подписи функций gameChannels(open/update/close/gameRound), 
- - иметь вайтлист/блеклист смарт-контрактов/сайтов/открытых ключей.
 
 ### :floppy_disk: IPFS deployer
 
-Реализация механизма деплоя игры в IPFS c последующей записью в контракт Game Market
+Implement functionality to deploy a game in the IPFS with further recording in the Game market contract.
 
 Steps:
+ - Write a game deploy script in the IPFS (~50-150 MB) using  ipscend.js or any other method (e.g. IPFS daemon setup, etc.);
+ - Once the hash is received, the game has to be added to the game market contract (game contract address and the IPFS hash for the game front-end storage);
+ - Obtain and render the game list.
 
- - Написать деплой игры (размер ~50-150 MB) в IPFS через ipscend.js либо своим способом (поднятие ipfs демона и т.д.)
- - После получение хеша нужно добавить игру на контракт (Game market contract) (адрес контракта игры и хеш ipfs, по которому расположен фронтенд игры)
- - Получение и рендер списка игр
 
 ## Номинации
 
-### :trophy: Призовой фонд: 10 ETH (в токенах BET) :trophy:
+### :trophy: Winners’ pot: ask organizers :trophy:
 
-Дополнителнительные бонусы:
+Additional bonuses:
 
- - **Размещение игры на платформе и дальнейшее проодвижение игры**
- - **Попадание команды в Sandbox для разработчиков**
- - **Трудоустройство в одном из крупнейших проектов в идустрии Igaming на блокчейне**
+ - **Game publication on DAO.Casino platform and its further promotion**
+ - **Invitation to the Sandbox team of developers**
+ - **Joining the team of the major blockchain Igaming project**
 
-Исходя из наиболее значимых для нас направлений развития и приоритетов, мы предлагаем следующие номинации:
+Taking into account our goals and priorities, we offer the following nominations:
 
-### «Лучшая игра, созданная на протоколе DAO.Casino»
+### «Best DAO.Casino Game»
 
-Создайте новую игру на нашем протоколе при помощи наших инструментов!
+Use our toolkit to create a new game based on DAO.Casino protocol!
 
- - Принимаются одноранговые (одноходовые) игры с простой бинарной логикой и элементом случайного выбора (результат определяется алгоритмом генерации случайных чисел. Примеры таких игр: Dice, Slots, Roulette, Баккара, "Наперстки", "Угадай число". Удивите нас интерпретацией таких простых механик!
+ - The nomination is open for p2p (single step) games of change (based on random choice) with simple binary logic; to compute the result, a random number generation algorithm is used. For instance: Dice, Slots, Roulette, Baccarat, Shell game, Guess the number, etc. Surprise us by a new interpretation of this old concept!
 
-### «Лучшая интеграция протокола DAO.Casino»
 
-Если у вас уже есть готовые игры, интегрируйте DAO.Casino в существующий проект! Используя наш инструментарий, интегрируйте мини-игры, лут-боксы, лотереи!
+### «Best DAO.Casino Intergration»
 
- - Реализация подразумевает использование механики Signidice и/или Game channels, либо нашего протокола в иной форме.
 
-### «Лучшее решение для протокола DAO.Casino»
+Have ready-made state-of-art games? Integrate DAO.Casino into your project. Use our toolkit to integrate mini-games, lotteries, lootboxes, etc.
+ - Participation implies using Signidice and/or Game Channel logic, or suggesting another use of our protocol.
 
-Знаете, как нам помочь улучшить наш продукт или реализацию? Предлагайте собственные механизмы игр, получения случайных чисел, а также offchain-решения и многое другое!
+### «Best Solution for DAO.Casino Protocol»
 
-- критерий оценки - полезность для протокола DAO.Casino или его конкретной реализации. 
+Have improvements for our product and implementation in mind? You are welcome to share your own algorithms and schemes for game development workflow and for random number generation game, as well as off-chain solutions and other ideas!
 
-### «Лучший смарт-контракт»
+- Assessment criteria: value for DAO.Casino protocol in general or for a specific implementation.
 
-Для гуру **Solidity!** Напишите лучший смарт-контракт игры, реализуйте сложную логику или расширьте функционал исходных контрактов!
+### «Best Smart Contract»
 
- - обязательна возможность компиляции решения и его развертывания в **Ropsten network**
+Solidity guru is your second name? Then write the best game contract, implement complex logic or extend functionality of original contracts!
+
+ - solutions submitted within this nomination must be compilable with and deployable in the Ropsten network
 
 ### «Лучшая визуализация»
 
-Красивая графика и богатая фантазия ваш конек? Нарисуйте и реализуйте визуальное решение для игры! Пусть, например, единорог вращает колесо фортуны, а хомяки подбрасывают кубики!
+Imagination and vibrant graphics are your forte? Create and implement a game visual theme! Let a unicorn turn the Wheel of Fortune and hamsters throw dices!
 
-- игра должна использовать  протокол DAO.Casino, либо быть совместимой с ним
+- games submitted within this nomination must use the DAO.Casino protocol or be compatible with it.
 
-## Технические требования:
+## Technical Requirements:
 
-Протокол реализован на стеке JS/Solidity, поэтому все решения должны быть реализованы на нем, либо иметь возможность интеграции с ним:
+The protocol is built on the JS/Solidity stack, therefore all solutions must either be built on it or support integration with it:
 
  - Javascript (ES6+) / React.js / Vue.js / Angular.js / Pixi.js / Phaser
  - Docker, Node.JS (10.0), IPFS
  - Solidity, Truffle, Web3.js
+ - MacOS, Linux, Windows 10 Pro
 
-## Процедура подачи работ от участников:
+
+## Participant Guide:
 
 Решения принимаются в виде **pull-request'ов** в этот репозиторий!
 
- - сделайте форк **этого** репозитория
- - Реализуйте свое решение в собственном форке
- - оформите README по [образцу]()
- - отправьте **pull-request**
- - ...
- - **PROFIT!**
+- Fork the repository
+- Create your solution locally
+- Write a README file according to the (template)[]
+- create a pull-request
+- ...
+- PROFIT!
