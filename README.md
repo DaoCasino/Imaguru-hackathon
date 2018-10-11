@@ -6,15 +6,12 @@ DAO.Casino revolutionizes the iGaming industry with its cutting-edge two-layer P
 Our SDK enables any developer to create blockchain games and apps without solid knowledge of cryptography or cryptocurrencies. The distributed ledger technology ensures unlimited access to games from any location connected to the Internet.
 DAO.Casino team is fully committed to delivering best products that make the gambling industry a better place.
 
-Присоединяйтесь к нашему чату в [telegram](https://t.me/daocasino_developers)
-Удачи!
-
-## Содержание
+## List of contents
     
-- [Задачи](#Задачи)
-- [Номинации](#Номинации)
-- [Технические требования](#Технические-требования)
-- [Правила подачи решений](#Процедура-подачи-работ-от-участников)
+- [Tasks](#Tasks)
+- [Nomination](#Nomination)
+- [Technical Requirements](#Technical-Requirements)
+- [Participant Guide](#Participant-Guide)
 
 ## Tasks
 
@@ -51,7 +48,7 @@ Steps:
  - Obtain and render the game list.
 
 
-## Номинации
+## Nomination
 
 ### :trophy: Winners’ pot: ask organizers :trophy:
 
@@ -88,7 +85,7 @@ Solidity guru is your second name? Then write the best game contract, implement 
 
  - solutions submitted within this nomination must be compilable with and deployable in the Ropsten network
 
-### «Лучшая визуализация»
+### «Best visualization»
 
 Imagination and vibrant graphics are your forte? Create and implement a game visual theme! Let a unicorn turn the Wheel of Fortune and hamsters throw dices!
 
@@ -106,11 +103,11 @@ The protocol is built on the JS/Solidity stack, therefore all solutions must eit
 
 ## Participant Guide:
 
-Решения принимаются в виде **pull-request'ов** в этот репозиторий!
+Participant solutions have to be submitted as  pull-requests to this repository!
 
 - Fork the repository
 - Create your solution locally
-- Write a README file according to the (template)[]
+- Write a README file according to the (template)[https://github.com/DaoCasino/MBH-Hackathon/blob/master/EXAMPLE.md]
 - create a pull-request
 - ...
 - PROFIT!
