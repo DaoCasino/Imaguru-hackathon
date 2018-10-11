@@ -1,4 +1,4 @@
-# DAO.Casino Hack Tasks for Malta Blockchain Hackathon
+# DAO.Casino Hack Task for Malta Blockchain Hackathon
 
 ![DAOCasino Logo](/images/pattern.jpg)
 
