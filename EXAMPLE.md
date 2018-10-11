@@ -2,21 +2,24 @@
 
 ### Target
 
- - Название номинации или задачи
+ - Nomination/Task Name
 
-### Описание
+### Description
  
 // Description
 
-### Инструкция по запуску
+### Quick Start Guide
 
-#### требования
 
->for example: 
-- Node 10.0
-- Truffle 4.0
 
- #### запуск
+#### Requirements
+
+>for example:
+ - Node 10.0
+ - Truffle 4.0
+
+
+ #### Start
 
  ```
  // for example
@@ -25,22 +28,22 @@ npm start
 truffle test
  ```
 
- #### Дополнителнительно
+ #### Optional
 
- // Любая информация, описание, скриншоты которые помогут нам лучше понять ваше решение!  
+ // Any information, descriptions, screenshots that may help us better understand your solution 
 
  #### Live view
 
- // при наличии ссылка на живой пример
- 
+ //link to an actual example, if available
  // for example: github page / ropsten.etherscan.io/address/0xSuperContract
 
-## Команда
 
- - Участник 1 (ссылка на github аккаунт)
- - Участник 2 (ссылка на github аккаунт)
+## Team
+
+ - Participant 1 (link to the github account)
+ - Participant 2 (link to the github account)
  - ...
 
-### Награждение
+### Details for Reward
 
- - 0xSUPERTEAMWALLETADDRESS (ethereum-адрес для начисления призов)
+ - 0xSUPERTEAMWALLETADDRESS (ethereum-address to deposit prizes)
