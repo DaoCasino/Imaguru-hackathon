@@ -8,10 +8,10 @@ DAO.Casino team is fully committed to delivering best products that make the gam
 
 ## List of contents
     
-- [Tasks](#Tasks)
-- [Nomination](#Nomination)
-- [Technical Requirements](#Technical-Requirements)
-- [Participant Guide](#Participant-Guide)
+- [Tasks](#tasks)
+- [Nomination](#nomination)
+- [Technical requirements](#technical-requirements)
+- [Participant guide](#participant-guide)
 
 ## Tasks
 
