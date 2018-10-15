@@ -6,7 +6,7 @@ DAO.Casino revolutionizes the iGaming industry with its cutting-edge two-layer P
 Our SDK enables any developer to create blockchain games and apps without solid knowledge of cryptography or cryptocurrencies. The distributed ledger technology ensures unlimited access to games from any location connected to the Internet.
 DAO.Casino team is fully committed to delivering best products that make the gambling industry a better place.
 
-## List of contents
+## Contents
     
 - [Tasks](#tasks)
 - [Nomination](#nomination)
@@ -19,18 +19,19 @@ Here are several tasks aimed at improving our protocol. Best solutions and imple
 
 ### :game_die: Use DAO.Casino SDK to create a game
 
-For the SDK and documentation navigate to [hackathon page](https://hackathon.dao.casino/)
+For the SDK and documentation navigate [hackathon page](https://hackathon.dao.casino/).
 
-### :video_game: Integrate the protocol elements to your game 
+### :video_game: Integrate the protocol elements into your game 
 
-For instance, add functionality based on elements of our protocol (Signidice, GameChannels) to an existing game.
+For instance, add functionality based on the elements of our protocol (Signidice, GameChannels) to an existing game.
 
 ### :cat: Create a gambling Chrome extension:
 
-Develop a browser extension (metamask fork/equivalent) that allows:
- - importing/creating accounts (private keys/ mnemonic);
- - receiving data from iframe, signing it with private key (without request to a user) and sending the signature back to iframe.
- - validating received data and displaying warnings in case of invalidity; saving data and relevant signatures, implementing  - integration with web3js 1.0
+Develop a browser extension (metamask fork/equivalent) that allows to:
+ - import/create accounts (private keys/ mnemonic);
+ - receive data from iframe, sign it with private key (without request to a user) and send the signature back to iframe.
+ - validate the received data and display warnings in case of invalidity; save data and relevant signatures, implement - integration with web3js 1.0
+
 Optional tasks:
  - Provide a convenient display option for the signed data; implement data request from the game smart-contract;
  - Implement data sending to the game smart contract;
@@ -48,7 +49,7 @@ Steps:
  - Obtain and render the game list.
 
 
-## Nomination
+## Nominations
 
 ### :trophy: Winners’ pot: ask organizers :trophy:
 
@@ -60,32 +61,31 @@ Additional bonuses:
 
 Taking into account our goals and priorities, we offer the following nominations:
 
-### «Best DAO.Casino Game»
+### Best DAO.Casino Game
 
 Use our toolkit to create a new game based on DAO.Casino protocol!
 
  - The nomination is open for p2p (single step) games of change (based on random choice) with simple binary logic; to compute the result, a random number generation algorithm is used. For instance: Dice, Slots, Roulette, Baccarat, Shell game, Guess the number, etc. Surprise us by a new interpretation of this old concept!
 
 
-### «Best DAO.Casino Intergration»
-
+### Best DAO.Casino Intergration
 
 Have ready-made state-of-art games? Integrate DAO.Casino into your project. Use our toolkit to integrate mini-games, lotteries, lootboxes, etc.
  - Participation implies using Signidice and/or Game Channel logic, or suggesting another use of our protocol.
 
-### «Best Solution for DAO.Casino Protocol»
+### Best Solution for DAO.Casino Protocol
 
 Have improvements for our product and implementation in mind? You are welcome to share your own algorithms and schemes for game development workflow and for random number generation game, as well as off-chain solutions and other ideas!
 
 - Assessment criteria: value for DAO.Casino protocol in general or for a specific implementation.
 
-### «Best Smart Contract»
+### Best Smart Contract
 
 Solidity guru is your second name? Then write the best game contract, implement complex logic or extend functionality of original contracts!
 
  - solutions submitted within this nomination must be compilable with and deployable in the Ropsten network
 
-### «Best visualization»
+### Best visualization
 
 Imagination and vibrant graphics are your forte? Create and implement a game visual theme! Let a unicorn turn the Wheel of Fortune and hamsters throw dices!
 
