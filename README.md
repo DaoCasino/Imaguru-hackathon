@@ -33,10 +33,10 @@ Develop a browser extension (metamask fork/equivalent) that allows to:
  - validate the received data and display warnings in case of invalidity; save data and relevant signatures, implement - integration with web3js 1.0
 
 Optional tasks:
- - Provide a convenient display option for the signed data; implement data request from the game smart-contract;
+ - Provide a convenient display option for the signed data; implement data request from the game smart contract;
  - Implement data sending to the game smart contract;
  - Implement integration with gameChannels where responses are made only to signatures from gameChannels(open/update/close/gameRound) function;
- - Ensure storage of smart-contract/site/public key Whitelist/ Blacklist.
+ - Ensure storage of smart contract/site/public key whitelist / blacklist.
 
 
 ### :floppy_disk: IPFS deployer
