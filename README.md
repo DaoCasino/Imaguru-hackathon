@@ -58,7 +58,7 @@ Steps:
 
 ## Nominations
 
-Additional bonuses:
+### :trophy: Winners’ pot::trophy:
 
  - **Game publication on DAO.Casino platform and its further promotion**
  - **Invitation to the Sandbox team of developers**
