@@ -9,7 +9,7 @@ DAO.Casino team is fully committed to delivering best products that make the gam
 ## Contents
     
 - [Tasks](#tasks)
-- [Nomination](#nomination)
+- [Nominations](#nominations)
 - [Technical requirements](#technical-requirements)
 - [Participant guide](#participant-guide)
 
@@ -47,7 +47,14 @@ Steps:
  - Write a game deploy script in the IPFS (~50-150 MB) using  ipscend.js or any other method (e.g. IPFS daemon setup, etc.);
  - Once the hash is received, the game has to be added to the game market contract (game contract address and the IPFS hash for the game front-end storage);
  - Obtain and render the game list.
-
+ 
+### :nut_and_bolt: Implementing DAO.Casino Protocol in a Different Programming Language
+ - Use the dc-ethereum-utils example to implement interaction with Ethereum
+ - Implement p2p messaging
+ - Build a .js interface between your protocol and dc-webapi
+ - Implement bankroller-core so that it could be initiated as a daemon 
+ - Implement an environment for a local Ethereum network (contracts and accounts, relevant assignment procedures)
+ - Implement the dc-core elements  (player dealer instance, start (client, bankroller))
 
 ## Nominations
 
