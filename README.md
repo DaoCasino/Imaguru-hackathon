@@ -58,8 +58,6 @@ Steps:
 
 ## Nominations
 
-### :trophy: Winners’ pot: ask organizers :trophy:
-
 Additional bonuses:
 
  - **Game publication on DAO.Casino platform and its further promotion**
