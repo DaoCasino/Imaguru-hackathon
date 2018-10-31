@@ -49,12 +49,9 @@ Steps:
  - Obtain and render the game list.
  
 ### :nut_and_bolt: Implementing DAO.Casino Protocol in a Different Programming Language
- - Use the dc-ethereum-utils example to implement interaction with Ethereum
- - Implement p2p messaging
- - Build a .js interface between your protocol and dc-webapi
- - Implement bankroller-core so that it could be initiated as a daemon 
- - Implement an environment for a local Ethereum network (contracts and accounts, relevant assignment procedures)
- - Implement the dc-core elements  (player dealer instance, start (client, bankroller))
+ - Create Ethereum interaction component implementing the whole or part of the  ETHInstance interface from [dc-ethereum-utils](https://github.com/DaoCasino/dc-ethereum-utils/blob/development/src/interfaces/IEth.ts). Main methods are: getBalances, startTransaction, allowance, signData, signHash.
+ - Implement p2p messaging protocol to communicate with bankroller using JsonRPC format as in current dc-messaging implementation. Run test to communicate with bankroller game instance [IDAppDealerInstance](https://github.com/DaoCasino/dc-core/blob/development/src/interfaces/IDAppInstance.ts)
+ - Implement the dc-core client elements like *DAppPlayerInstance* in [dc-core](https://github.com/DaoCasino/dc-core)
 
 ## Nominations
 
