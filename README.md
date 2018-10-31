@@ -112,7 +112,7 @@ Participant solutions have to be submitted as  pull-requests to this repository!
 
 - Fork the repository
 - Create your solution locally
-- Write a README file according to the (template)[https://github.com/DaoCasino/MBH-Hackathon/blob/master/EXAMPLE.md]
+- Write a README file according to the [template](https://github.com/DaoCasino/MBH-Hackathon/blob/master/EXAMPLE.md)
 - create a pull-request
 - ...
 - PROFIT!
