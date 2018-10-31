@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd"
+        logicalFilePath="changelogs/db.changelog-0.1.xml">
+
+    <changeSet id="201810311500" author="alexander.kuzmenko">
+        <comment>Create user table</comment>
+        <createTable tableName="system_user" schemaName="public">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="first_name" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar" defaultValue="PENDING">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="system_user">
+            <column name="email">admin@test.com</column>
+            <column name="password">$2a$10$gIIyua2xP/wuK7jtH3qw7urybAw6aVYM5vojlIWyZf/FEs5GZwq3C</column>
+            <column name="first_name">Mike</column>
+            <column name="last_name">Tyson</column>
+            <column name="role">ROLE_ADMIN</column>
+            <column name="status">ENABLED</column>
+        </insert>
+
+        <rollback>
+            <dropTable tableName="system_user" cascadeConstraints="true"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
