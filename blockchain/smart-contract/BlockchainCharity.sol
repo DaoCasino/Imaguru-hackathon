@@ -1,6 +1,27 @@
 pragma solidity ^0.4.18;
 
-contract CharityLottery {
+import "oraclizeAPI.sol";
+
+contract owned {
+    address public owner;
+
+    constructor() public {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner {
+        require(msg.sender == owner);
+        _;
+    }
+}
+
+contract CharityLottery is owned, usingOraclize {
+
+    uint oraclizeRandomBytesAmount = 7;
+    uint oraclizeDelay = 0;
+    uint callbackGas = 200000; // TODO: check gas consumption
+
+    mapping(bytes32 => bool) validOraclizeIds;
 
     address public owner;
     address public beneficiary;
@@ -12,7 +33,7 @@ contract CharityLottery {
     uint public maxMaintenanceFee;
     uint public ticketPrice;
     uint public amountRaised;
-    uint public currentTicketNumber = 0;
+    uint public currentTicketNumber = - 1;
 
     struct Ticket {
         uint ticketNumber;
@@ -22,9 +43,26 @@ contract CharityLottery {
     mapping(address => Ticket[]) public holderTickets;
     Ticket[] public allTickets;
 
+    uint public winnerTicketNumber = - 1; // use -1 for undefined
+
     event BuyTicket(address holder, uint ticketNumber, uint ticketPrice);
     event WinnerTransfer(address winner, uint amount);
     event BeneficiaryTransfer(address beneficiary, uint amount);
+
+    modifier finishedLottery() {
+        require(lotteryClosed == true);
+        _;
+    }
+
+    modifier nonFinishedLottery() {
+        require(lotteryClosed == false);
+        _;
+    }
+
+    modifier isReachedDeadline() {
+        require(now >= deadline);
+        _;
+    }
 
     function CharityLottery(
         address beneficiaryAddress,
@@ -32,7 +70,6 @@ contract CharityLottery {
         uint feePercent,
         uint maxFee,
         uint priceForTheTicket
-
     ) public {
         owner = msg.sender;
         beneficiary = beneficiaryAddress;
@@ -63,15 +100,50 @@ contract CharityLottery {
         }
     }
 
-    modifier isReadyToBeFinished() {
-        if (lotteryClosed == false && now >= deadline) _;
+    function requestTicketWinnerNumber() public isReachedDeadline nonFinishedLottery {
+        oraclize_setProof(proofType_Ledger);
+
+        bytes32 queryId = oraclize_newRandomDSQuery(oraclizeDelay, oraclizeRandomBytesAmount, callbackGas);
+
+        // Needed to check in callback function
+        validIds[queryId] = true;
     }
 
-    function finishLottery() payable public isReadyToBeFinished {
+    // Oraclize proof callback. Calls when
+    function __callback(bytes32 _queryId, string _result, bytes _proof)
+    {
+        if (msg.sender != oraclize_cbAddress()
+        || !validIds[_queryId]
+        || oraclize_randomDS_proofVerify__returnCode(_queryId, _result, _proof) == 0) {
+            throw;
+        } else {
+            uint maxRange = currentTicketNumber;
+            winnerTicketNumber = uint(sha3(_result)) % maxRange;
 
-        // TODO: Choose random winner (winners)
-        // TODO: send money to charity
-        // TODO: send all left money to owner
+            finishLottery();
+        }
+    }
+
+    function finishLottery() payable internal isReadyToBeFinished {
+        // TODO: Send money to winner
+        // TODO: emit events
+
+        uint balanceAmount = address(this).balance;
+        uint feeAmount = balanceAmount * maintenanceFeePercent / 100;
+
+        if (feeAmount > maxMaintenanceFee) {
+            feeAmount = maxMaintenanceFee;
+        }
+
+        uint donationAmount = balanceAmount - feeAmount;
+
+        beneficiary.send(donationAmount);
+
+        // TODO: emit events
         lotteryClosed = true;
+    }
+
+    function withdrawOwnersAmount() onlyOwner finishedLottery {
+        require(msg.sender.send(address(this).balance));
     }
 }
