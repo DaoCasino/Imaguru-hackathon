@@ -1,0 +1,45 @@
+server.port: 8883
+
+spring:
+  datasource:
+    username: dev_user
+    password: dev_password
+    url: jdbc:postgresql://localhost:5432/mh
+    hikari:
+      minimumIdle: 10
+      maximumPoolSize: 50
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    hibernate.ddl-auto: none
+    properties.hibernate.jdbc:
+      lob.non_contextual_creation: true
+      time_zone: "UTC"
+  liquibase:
+    enabled: true
+    change-log: classpath:/changelogs/db.changelog-master.xml
+
+# Ethereum
+ethereum:
+  initial:
+    ether: 1000000000000000
+  geth:
+    connPool:
+      maxConnTotal: 100
+      maxConnPerRoute: 100
+      maxConnIdle: 50
+      maxIdleTimeSeconds: 300 # IMPORTANT!!! Should be less than server.connection-timeout
+      readTimeoutSeconds: 300
+      connectionTimeoutSeconds: 30
+    url: http://localhost:8501
+  owner:
+    wallet:
+      address: "0x4a91d42d33e1f6e24bc86a52fd6a00f7aac15ee8"
+      privateKey: "79758460756326615189336916476751864146397195680622050055491221201098956741270"
+  cryptocoin:
+    gas-price: 20000000000
+    gas-limit: 20000000
+  receiptProcessor:
+    sleepDurationMillis: 250
+    attempts: 120
+  batch-size: 300
