@@ -41,9 +41,44 @@
             <column name="status">ENABLED</column>
         </insert>
 
-        <rollback>
-            <dropTable tableName="system_user" cascadeConstraints="true"/>
-        </rollback>
+    </changeSet>
+
+    <changeSet id="201810311750" author="alexander.kuzmenko">
+        <comment>Create lottery table</comment>
+        <createTable tableName="lottery" schemaName="public">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fund_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fund_description" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contract_address" type="varchar(100)"/>
+            <column name="start_date" type="timestamp"/>
+            <column name="end_date" type="timestamp"/>
+        </createTable>
+
+        <insert tableName="lottery">
+            <column name="name">Test Lottery</column>
+            <column name="description">Test lottery description</column>
+            <column name="status">INACTIVE</column>
+            <column name="fund_name">Test Fund</column>
+            <column name="fund_description">Fund description</column>
+            <column name="start_date">2018-11-01 17:05:19.584090</column>
+            <column name="end_date">2018-11-02 17:05:19.584090</column>
+        </insert>
+
     </changeSet>
 
 </databaseChangeLog>

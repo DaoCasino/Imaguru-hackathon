@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
     <title>Lottery</title>
+    <th:block th:include="fragments/include :: head"></th:block>
 </head>
 <body>
-
+<div th:text="${lotteries}"></div>
 </body>
+<script th:inline="javascript">
+
+    $(function () {
+       console.log("valera");
+    })
+</script>
 </html>
