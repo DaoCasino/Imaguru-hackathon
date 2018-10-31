@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title>Lotteries</title>
+    <th:block th:include="fragments/include :: head"></th:block>
+</head>
+<body>
+<div style="width: 86%;">
+    <table border="1" style="width:300px">
+        <tr>
+            <td>Lottery ID</td>
+            <td>Lottery Name</td>
+            <td>Lottery Fund Name</td>
+            <td>Start Date</td>
+            <td>End Date</td>
+            <td>Ticket Price</td>
+            <td>Tickets Count</td>
+            <td>Donation</td>
+            <td>Prize Pool</td>
+        </tr>
+        <th:block th:each="lottery : ${lotteries}">
+            <tr>
+                <td th:text="${lottery.id}"></td>
+                <td th:text="${lottery.name}"></td>
+                <td th:text="${lottery.fundName}"></td>
+                <td th:text="${lottery.startDate}"></td>
+                <td th:text="${lottery.endDate}"></td>
+                <td th:text="${lottery.ticketPrice}"></td>
+                <td th:text="${lottery.ticketCount}"></td>
+                <td th:text="${lottery.donation}"></td>
+                <td th:text="${lottery.prizePool}"></td>
+            </tr>
+        </th:block>
+    </table>
+</div>
+</body>
+<script th:inline="javascript">
+
+    $(function () {
+       console.log("valera");
+    })
+
+</script>
+</html>

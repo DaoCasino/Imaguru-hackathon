@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static com.dataart.maltahackaton.utils.DateUtils.DATE_TIME_FORMAT;
@@ -37,4 +38,13 @@ public class Lottery {
     @JsonFormat(pattern = DATE_TIME_FORMAT)
     private LocalDateTime endDate;
 
+    private Boolean completed;
+
+    private BigDecimal ticketPrice;
+
+    private Long ticketCount;
+
+    private BigDecimal donationRate;
+
+    private BigDecimal prizePoolRate;
 }
