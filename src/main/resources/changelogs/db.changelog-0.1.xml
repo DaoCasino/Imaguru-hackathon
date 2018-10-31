@@ -64,9 +64,20 @@
             <column name="fund_description" type="varchar">
                 <constraints nullable="false"/>
             </column>
+            <column name="ticket_price" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="donation_rate" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prize_pool_rate" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ticket_count" type="bigint"/>
             <column name="contract_address" type="varchar(100)"/>
             <column name="start_date" type="timestamp"/>
             <column name="end_date" type="timestamp"/>
+            <column name="completed" type="boolean" defaultValue="false"/>
         </createTable>
 
         <insert tableName="lottery">
@@ -77,6 +88,11 @@
             <column name="fund_description">Fund description</column>
             <column name="start_date">2018-11-01 17:05:19.584090</column>
             <column name="end_date">2018-11-02 17:05:19.584090</column>
+            <column name="ticket_price">0.08</column>
+            <column name="ticket_count">385</column>
+            <column name="donation_rate">30</column>
+            <column name="prize_pool_rate">20</column>
+            <column name="completed">true</column>
         </insert>
 
     </changeSet>
