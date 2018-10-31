@@ -22,7 +22,7 @@ contract CharityLottery {
     mapping(address => Ticket[]) public holderTickets;
     Ticket[] public allTickets;
 
-    event FundTransfer(address backer, uint amount);
+    event BuyTicket(address holder, uint ticketNumber, uint ticketPrice);
     event WinnerTransfer(address winner, uint amount);
     event BeneficiaryTransfer(address beneficiary, uint amount);
 
@@ -48,7 +48,7 @@ contract CharityLottery {
         uint amount = msg.value;
         address holder = msg.sender;
 
-        require(amount >= ticketPrice);
+        require(amount % ticketPrice == 0);
 
         amountToReturn = amount % ticketPrice;
         ticketAmount = amount / ticketPrice;
@@ -56,64 +56,22 @@ contract CharityLottery {
         for (uint i = 0; i < ticketAmount; i++) {
             currentTicketNumber++;
             Ticket ticket = Ticket(currentTicketNumber, holder);
+
             allTickets.push(ticket);
             holderTickets[holder].push(ticket);
+            emit BuyTicket(holder, currentTicketNumber, ticketPrice);
         }
-
-        if (amountToReturn > 0) {
-            // TODO: return
-        }
-
-
-        balanceOf[msg.sender] += amount;
-        amountRaised += amount;
-        tokenReward.transfer(msg.sender, amount / price);
-        emit FundTransfer(msg.sender, amount, true);
     }
 
-    modifier afterDeadline() {if (now >= deadline) _;}
-
-    /**
-     * Check if goal was reached
-     *
-     * Checks if the goal or time limit has been reached and ends the campaign
-     */
-    function checkGoalReached() public afterDeadline {
-        if (amountRaised >= fundingGoal) {
-            fundingGoalReached = true;
-            emit GoalReached(beneficiary, amountRaised);
-        }
-        crowdsaleClosed = true;
+    modifier isReadyToBeFinished() {
+        if (lotteryClosed == false && now >= deadline) _;
     }
 
+    function finishLottery() payable public isReadyToBeFinished {
 
-    /**
-     * Withdraw the funds
-     *
-     * Checks to see if goal or time limit has been reached, and if so, and the funding goal was reached,
-     * sends the entire amount to the beneficiary. If goal was not reached, each contributor can withdraw
-     * the amount they contributed.
-     */
-    function safeWithdrawal() public afterDeadline {
-        if (!fundingGoalReached) {
-            uint amount = balanceOf[msg.sender];
-            balanceOf[msg.sender] = 0;
-            if (amount > 0) {
-                if (msg.sender.send(amount)) {
-                    emit FundTransfer(msg.sender, amount, false);
-                } else {
-                    balanceOf[msg.sender] = amount;
-                }
-            }
-        }
-
-        if (fundingGoalReached && beneficiary == msg.sender) {
-            if (beneficiary.send(amountRaised)) {
-                emit FundTransfer(beneficiary, amountRaised, false);
-            } else {
-                //If we fail to send the funds to beneficiary, unlock funders balance
-                fundingGoalReached = false;
-            }
-        }
+        // TODO: Choose random winner (winners)
+        // TODO: send money to charity
+        // TODO: send all left money to owner
+        lotteryClosed = true;
     }
 }
