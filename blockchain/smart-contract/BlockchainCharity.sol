@@ -32,14 +32,14 @@ contract CharityLottery is owned, usingOraclize {
     uint public maintenanceFeeRate;
     uint public maxMaintenanceFee;
     uint public ticketPrice;
-    int public currentTicketNumber = -1;
+    int public currentTicketNumber = - 1;
     uint public amountRaised = 0;
 
     uint public winnerRate;
     uint public charityRate;
 
     struct Ticket {
-        int ticketNumber;
+        uint ticketNumber;
         address holder;
     }
 
@@ -48,7 +48,7 @@ contract CharityLottery is owned, usingOraclize {
 
     int public winnerTicketNumber = - 1; // use -1 for undefined
 
-    event BuyTicket(address holder, int ticketNumber, uint ticketPrice);
+    event BuyTicket(address holder, uint ticketNumber, uint ticketPrice);
     event WinnerTransfer(address winner, uint amount);
     event CharityTransfer(address beneficiary, uint amount);
 
@@ -101,12 +101,12 @@ contract CharityLottery is owned, usingOraclize {
 
         for (uint i = 0; i < ticketAmount; i++) {
             currentTicketNumber++;
-            Ticket memory ticket = Ticket(currentTicketNumber, holder);
+            Ticket memory ticket = Ticket(uint(currentTicketNumber), holder);
 
             amountRaised += ticketPrice;
             allTickets.push(ticket);
             holderTickets[holder].push(ticket);
-            emit BuyTicket(holder, currentTicketNumber, ticketPrice);
+            emit BuyTicket(holder, uint(currentTicketNumber), ticketPrice);
         }
     }
 
