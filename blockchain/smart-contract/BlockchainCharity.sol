@@ -18,7 +18,7 @@ contract CharityLottery is owned {
     address public owner;
     address public charityFund;
 
-    bool lotteryClosed = false;
+    bool public lotteryClosed = false;
     uint public deadline;
 
     uint public maintenanceFeeRate;
