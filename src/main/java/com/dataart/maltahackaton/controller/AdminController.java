@@ -1,15 +1,13 @@
 package com.dataart.maltahackaton.controller;
 
-import com.dataart.maltahackaton.domain.dto.LotteryDto;
+import com.dataart.maltahackaton.domain.dto.LotteryCreateRequest;
+import com.dataart.maltahackaton.domain.dto.LotteryResponse;
 import com.dataart.maltahackaton.service.LotteryService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("admin")
 public class AdminController {
 
     private final LotteryService lotteryService;
@@ -18,9 +16,19 @@ public class AdminController {
         this.lotteryService = lotteryService;
     }
 
-    @PostMapping("createLottery")
+    @GetMapping("login")
+    public String getLogin(Model model) {
+        return "login";
+    }
+
+    @GetMapping("admin/createLottery")
+    public String createLotteryPage(Model model) {
+        return "lotteryCreate";
+    }
+
+    @PostMapping(value = "admin/createLottery", consumes = "multipart/form-data")
     @ResponseBody
-    public LotteryDto createLottery(@RequestBody LotteryDto lotteryDto) {
-        return lotteryService.createLottery(lotteryDto);
+    public LotteryResponse createLottery(@ModelAttribute LotteryCreateRequest lottery) {
+        return lotteryService.createLottery(lottery);
     }
 }
