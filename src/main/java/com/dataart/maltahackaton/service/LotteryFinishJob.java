@@ -31,7 +31,7 @@ public class LotteryFinishJob {
     public void executeJob() {
         log.info("Starting lotteries sync...");
         List<Lottery> potentiallyFinishedLotteries =
-                lotteryRepository.findAllByStatusAAndEndDateBefore(LotteryStatus.ACTIVE, LocalDateTime.now());
+                lotteryRepository.findAllByStatusAndEndDateBefore(LotteryStatus.ACTIVE, LocalDateTime.now());
         log.info("Found {} active lotteries", potentiallyFinishedLotteries.size());
         log.info("Starting finish lotteries...");
 
