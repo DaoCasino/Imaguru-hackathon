@@ -31,7 +31,8 @@ public class LotteryFinishJob {
     public void executeJob() {
         log.info("Starting lotteries sync...");
         List<Lottery> potentiallyFinishedLotteries =
-                lotteryRepository.findAllByStatusAndEndDateBefore(LotteryStatus.ACTIVE, LocalDateTime.now());
+                lotteryRepository.findAllByStatusAndEndDateBeforeOrCompletedAndEndDateBefore(LotteryStatus.ACTIVE,
+                        LocalDateTime.now(), false, LocalDateTime.now());
         log.info("Found {} active lotteries", potentiallyFinishedLotteries.size());
         log.info("Starting finish lotteries...");
 
@@ -40,17 +41,17 @@ public class LotteryFinishJob {
                     blockchainConfig.getGasPrice(), blockchainConfig.getGasLimit());
             try {
                 if (blockchainCharity.lotteryClosed().send()) {
-                    log.info("Finishing lottery {}", lottery.getContractAddress());
-                    blockchainCharity.finishLottery().send();
-                    lottery.setStatus(LotteryStatus.INACTIVE);
-                    lotteryRepository.save(lottery);
-                    log.info("Lottery finished...");
-                } else {
                     log.info("Withdrawing funds from closed lottery to wallet: {}", blockchainConfig.getOwnerWalletAddress());
                     blockchainCharity.withdrawOwnersAmount().send();
                     lottery.setCompleted(true);
                     lotteryRepository.save(lottery);
                     log.info("Withdrawing completed...");
+                } else {
+                    log.info("Finishing lottery {}", lottery.getContractAddress());
+                    blockchainCharity.finishLottery().send();
+                    lottery.setStatus(LotteryStatus.INACTIVE);
+                    lotteryRepository.save(lottery);
+                    log.info("Lottery finished...");
                 }
             } catch (Exception e) {
                 log.error("Error while finishing lottery", e);

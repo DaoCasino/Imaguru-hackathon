@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface LotteryRepository extends JpaRepository<Lottery, Long> {
 
-    List<Lottery> findAllByStatusAndEndDateBefore(LotteryStatus status, LocalDateTime localDateTime);
+    List<Lottery> findAllByStatusAndEndDateBeforeOrCompletedAndEndDateBefore(LotteryStatus status, LocalDateTime endDate, Boolean completed, LocalDateTime endDate2);
 
     List<Lottery> findAllByStatus(LotteryStatus status);
 

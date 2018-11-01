@@ -42,7 +42,7 @@ public class Lottery {
     @JsonFormat(pattern = DATE_TIME_FORMAT)
     private LocalDateTime endDate;
 
-    private Boolean completed;
+    private Boolean completed = false;
 
     private BigDecimal ticketPrice;
 
