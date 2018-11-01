@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd"
+        logicalFilePath="changelogs/db.changelog-0.1.xml">
+
+    <changeSet id="201810311500" author="alexander.kuzmenko">
+        <comment>Create user table</comment>
+        <createTable tableName="system_user" schemaName="public">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="first_name" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar" defaultValue="PENDING">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="system_user">
+            <column name="email">admin@test.com</column>
+            <column name="password">$2a$10$gIIyua2xP/wuK7jtH3qw7urybAw6aVYM5vojlIWyZf/FEs5GZwq3C</column>
+            <column name="first_name">Mike</column>
+            <column name="last_name">Tyson</column>
+            <column name="role">ROLE_ADMIN</column>
+            <column name="status">ENABLED</column>
+        </insert>
+
+    </changeSet>
+
+    <changeSet id="201810311750" author="alexander.kuzmenko">
+        <comment>Create lottery table</comment>
+        <createTable tableName="lottery" schemaName="public">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fund_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fund_description" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ticket_price" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="donation_rate" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prize_pool_rate" type="decimal">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ticket_count" type="bigint"/>
+            <column name="contract_address" type="varchar(100)"/>
+            <column name="start_date" type="timestamp"/>
+            <column name="end_date" type="timestamp"/>
+            <column name="completed" type="boolean" defaultValue="false"/>
+        </createTable>
+
+        <insert tableName="lottery">
+            <column name="name">Test Lottery</column>
+            <column name="description">Test lottery description</column>
+            <column name="status">INACTIVE</column>
+            <column name="fund_name">Test Fund</column>
+            <column name="fund_description">Fund description</column>
+            <column name="start_date">2018-11-01 17:05:19.584090</column>
+            <column name="end_date">2018-11-02 17:05:19.584090</column>
+            <column name="ticket_price">0.08</column>
+            <column name="ticket_count">385</column>
+            <column name="donation_rate">30</column>
+            <column name="prize_pool_rate">20</column>
+            <column name="completed">true</column>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

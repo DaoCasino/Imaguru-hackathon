@@ -31,7 +31,7 @@ ethereum:
       maxIdleTimeSeconds: 300 # IMPORTANT!!! Should be less than server.connection-timeout
       readTimeoutSeconds: 300
       connectionTimeoutSeconds: 30
-    url: http://localhost:8501
+    url: https://mainnet.infura.io/v3/4fb24e55ac7843c08408a21b61c68535
   owner:
     wallet:
       address: "0x4a91d42d33e1f6e24bc86a52fd6a00f7aac15ee8"
