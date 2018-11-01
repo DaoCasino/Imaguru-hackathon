@@ -29,6 +29,7 @@ public class LotteryController {
 
     @GetMapping("getAll")
     public String getAll(Model model) throws Exception {
+        log.info("Start deploying contract...........");
         String contractAddress = lotteryProvider.deploy(blockchainConfig.getOwnerWalletPrivateKey(), "0x6dfE9E7B55EbEB7D5d494503b5b8C91B95B925Fa", BigInteger.TEN,
                 BigInteger.TEN, new BigInteger("100000000000000000"), new BigInteger("100000000000000000"), BigInteger.TEN, new BigInteger("90"));
         log.info("__________________________" + contractAddress);
