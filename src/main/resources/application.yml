@@ -37,7 +37,7 @@ ethereum:
       maxIdleTimeSeconds: 300 # IMPORTANT!!! Should be less than server.connection-timeout
       readTimeoutSeconds: 300
       connectionTimeoutSeconds: 30
-    url: https://ropsten.infura.io/v3/4fb24e55ac7843c08408a21b61c68535
+    url: https://ropsten.infura.io/v3/c7a8a611027847ce9a694afd411a2efc
   owner:
     wallet:
       address: "0x256382f4246118d537edc8a850193ad2029be11a"
