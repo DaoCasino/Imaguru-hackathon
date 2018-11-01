@@ -1,11 +1,11 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.4.24;
 
 import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 
 contract owned {
     address public owner;
 
-    constructor() public {
+    function owned() public {
         owner = msg.sender;
     }
 
@@ -88,7 +88,7 @@ contract CharityLottery is owned, usingOraclize {
         charityRate = charityPercent;
     }
 
-    function() payable {
+    function() payable public {
         require(!lotteryClosed);
 
         uint amount = msg.value;
