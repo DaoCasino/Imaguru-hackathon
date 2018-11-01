@@ -21,13 +21,12 @@ contract CharityLottery is owned {
     bool public lotteryClosed = false;
     uint public deadline;
 
+    uint public winnerRate;
     uint public maintenanceFeeRate;
     uint public maxMaintenanceFee;
     uint public ticketPrice;
     int public currentTicketNumber = - 1;
     uint public amountRaised = 0;
-
-    uint public winnerRate;
 
     struct Ticket {
         uint ticketNumber;
@@ -63,7 +62,7 @@ contract CharityLottery is owned {
         _;
     }
 
-    function CharityLottery (
+    function CharityLottery(
         address charityAddress,
         uint durationInMinutes,
         uint feePercent,
@@ -114,27 +113,22 @@ contract CharityLottery is owned {
 
         uint giveAwayAmount = balance - feeAmount;
 
-        uint charityDonationAmount = calculateAndSendWinnerAmount(giveAwayAmount);
-        calculateAndSendCharityAmount(charityDonationAmount);
+        // Handling winner
+        uint winnerAmount = giveAwayAmount * winnerRate / 100;
+        address winnerAddress = allTickets[uint(winnerTicketNumber)].holder;
+        winnerAddress.transfer(winnerAmount);
+        WinnerTransfer(winnerAddress, winnerAmount);
+
+        // Handling charity
+        uint charityDonationAmount = giveAwayAmount - winnerAmount;
+        charityFund.transfer(charityDonationAmount);
+        CharityTransfer(charityFund, charityDonationAmount);
 
         lotteryClosed = true;
     }
 
     function chooseWinner() internal winnerNotChosen {
         winnerTicketNumber = int(uint(keccak256(block.difficulty, block.timestamp)) % uint(currentTicketNumber));
-    }
-
-    function calculateAndSendWinnerAmount(uint giveAwayAmount) internal finishedLottery returns (uint charityDonationAmount) {
-        uint winnerAmount = giveAwayAmount * winnerRate / 100;
-        address winnerAddress = allTickets[uint(winnerTicketNumber)].holder;
-        winnerAddress.transfer(winnerAmount);
-        WinnerTransfer(winnerAddress, winnerAmount);
-        return giveAwayAmount - winnerAmount;
-    }
-
-    function calculateAndSendCharityAmount(uint charityDonationAmount) internal finishedLottery {
-        charityFund.transfer(charityDonationAmount);
-        CharityTransfer(charityFund, charityDonationAmount);
     }
 
     function withdrawOwnersAmount() public onlyOwner finishedLottery {

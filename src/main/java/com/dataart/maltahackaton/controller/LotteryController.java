@@ -5,7 +5,6 @@ import com.dataart.maltahackaton.blockchain.BlockchainConfig;
 import com.dataart.maltahackaton.blockchain.LotteryProvider;
 import com.dataart.maltahackaton.domain.dto.LotteryResponse;
 import com.dataart.maltahackaton.service.LotteryService;
-import com.dataart.maltahackaton.utils.BlockchainUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.web3j.protocol.Web3j;
-import org.web3j.tx.Transfer;
-import org.web3j.utils.Convert;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Slf4j
@@ -38,29 +35,21 @@ public class LotteryController {
         this.web3j = web3j;
     }
 
+    // TODO: Remove from this
     @ResponseBody
     @GetMapping("deploy")
     public String deploy() throws Exception {
-        return lotteryProvider.deploy("0x6dfE9E7B55EbEB7D5d494503b5b8C91B95B925Fa", new BigInteger("2"),
-                BigInteger.TEN, new BigInteger("100000000000000000"), new BigInteger("10000000000000000"), BigInteger.TEN);
-    }
-
-    @ResponseBody
-    @GetMapping("sendFunds/{contractAddress}")
-    public void sendFunds(@PathVariable String contractAddress) throws Exception {
-        Transfer.sendFunds(
-                web3j,
-                BlockchainUtils.buildCredentials("79758460756326615189336916476751864146397195680622050055491221201098956741270"),
-                contractAddress,
-                new BigDecimal("10000000000000000"), Convert.Unit.WEI).send();
-        log.info("Funds sent");
+        return lotteryProvider.deploy("0xfed7907edc850959e570092ac0c45726f48978dd", new BigInteger("100"),
+                BigInteger.TEN, new BigInteger("100000000000000000"), new BigInteger("1000000000000000"), BigInteger.TEN);
     }
 
     @ResponseBody
     @GetMapping("finish/{contractAddress}")
     public void finish(@PathVariable String contractAddress) throws Exception {
         BlockchainCharity contract = lotteryProvider.loadFromOwner(contractAddress);
-        contract.finishLottery().send();
+        TransactionReceipt transactionReceipt = contract.finishLottery().send();
+        log.info(transactionReceipt.getBlockNumber().toString());
+        log.info(transactionReceipt.getTransactionHash());
         log.info("lottery finished");
     }
 
@@ -71,6 +60,7 @@ public class LotteryController {
         contract.withdrawOwnersAmount().send();
         log.info("Owner is rich now");
     }
+    // TODO: Remove to this
 
     @GetMapping("getAll")
     public String getAll(Model model) {
