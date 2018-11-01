@@ -1,6 +1,7 @@
 package com.dataart.maltahackaton.service;
 
 import com.dataart.maltahackaton.blockchain.BlockchainCharity;
+import com.dataart.maltahackaton.blockchain.BlockchainConfig;
 import com.dataart.maltahackaton.blockchain.LotteryProvider;
 import com.dataart.maltahackaton.domain.Lottery;
 import com.dataart.maltahackaton.domain.LotteryStatus;
@@ -35,11 +36,13 @@ public class LotteryService {
     private final LotteryRepository lotteryRepository;
     private final ModelMapper modelMapper;
     private final LotteryProvider lotteryProvider;
+    private final BlockchainConfig blockchainConfig;
 
-    public LotteryService(LotteryRepository lotteryRepository, ModelMapper modelMapper, LotteryProvider lotteryProvider) {
+    public LotteryService(LotteryRepository lotteryRepository, ModelMapper modelMapper, LotteryProvider lotteryProvider, BlockchainConfig blockchainConfig) {
         this.lotteryRepository = lotteryRepository;
         this.modelMapper = modelMapper;
         this.lotteryProvider = lotteryProvider;
+        this.blockchainConfig = blockchainConfig;
     }
 
     public List<LotteryResponse> findAllActive() {
@@ -50,6 +53,23 @@ public class LotteryService {
     public List<LotteryResponse> findAllInactive() {
         List<Lottery> lotteries = lotteryRepository.findAllByStatus(LotteryStatus.INACTIVE);
         return mapToResponseObjects(lotteries);
+    }
+
+    public List<LotteryResponse> findByUserWallet(String walletAddress) {
+        List<Lottery> allLotteries = lotteryRepository.findAll();
+        List<Lottery> userLotteries = new ArrayList<>();
+        for (Lottery lottery : allLotteries) {
+            BlockchainCharity blockchainCharity = lotteryProvider.loadFromOwner(lottery.getContractAddress(),
+                    blockchainConfig.getGasPrice(), blockchainConfig.getGasLimit());
+            try {
+                if (blockchainCharity.holderTickets(walletAddress, BigInteger.ZERO).send().getValue1().compareTo(BigInteger.ZERO) > 0) {
+                    userLotteries.add(lottery);
+                }
+            } catch (Exception e) {
+                log.error("Error while searching user lotteries: ", e);
+            }
+        }
+        return mapToResponseObjects(userLotteries);
     }
 
     private List<LotteryResponse> mapToResponseObjects(List<Lottery> lotteries) {
