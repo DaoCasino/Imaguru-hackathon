@@ -29,11 +29,14 @@ contract CharityLottery is owned, usingOraclize {
     bool lotteryClosed = false;
     uint public deadline;
 
-    uint public maintenanceFeePercent;
+    uint public maintenanceFeeRate;
     uint public maxMaintenanceFee;
     uint public ticketPrice;
-    uint public amountRaised;
     uint public currentTicketNumber = - 1;
+    uint public amountRaised = 0;
+
+    uint public winnerRate;
+    uint public charityRate;
 
     struct Ticket {
         uint ticketNumber;
@@ -69,14 +72,20 @@ contract CharityLottery is owned, usingOraclize {
         uint durationInMinutes,
         uint feePercent,
         uint maxFee,
-        uint priceForTheTicket
+        uint priceForTheTicket,
+        uint winnerPercent,
+        uint charityPercent
     ) public {
+        require(winnerPercent + charityPercent == 100);
+
         owner = msg.sender;
         charityFund = charityAddress;
         deadline = now + durationInMinutes * 1 minutes;
-        maintenanceFeePercent = feePercent;
+        maintenanceFeeRate = feePercent;
         maxMaintenanceFee = maxFee;
         ticketPrice = priceForTheTicket;
+        winnerRate = winnerPercent;
+        charityRate = charityPercent;
     }
 
     function() payable public {
@@ -94,6 +103,7 @@ contract CharityLottery is owned, usingOraclize {
             currentTicketNumber++;
             Ticket ticket = Ticket(currentTicketNumber, holder);
 
+            amountRaised += ticketPrice;
             allTickets.push(ticket);
             holderTickets[holder].push(ticket);
             emit BuyTicket(holder, currentTicketNumber, ticketPrice);
@@ -109,7 +119,10 @@ contract CharityLottery is owned, usingOraclize {
         validIds[queryId] = true;
     }
 
-    // Oraclize proof callback. Calls when
+    /*
+        Oraclize proof callback.
+        Called when random number is generated
+    */
     function __callback(bytes32 _queryId, string _result, bytes _proof)
     {
         if (msg.sender != oraclize_cbAddress()
@@ -125,22 +138,31 @@ contract CharityLottery is owned, usingOraclize {
     }
 
     function finishLottery() payable internal isReadyToBeFinished {
-        // TODO: Send money to winner
-        // TODO: emit events
-
-        uint balanceAmount = address(this).balance;
-        uint feeAmount = balanceAmount * maintenanceFeePercent / 100;
+        uint balance = address(this).balance;
+        uint feeAmount = balance * maintenanceFeeRate / 100;
 
         if (feeAmount > maxMaintenanceFee) {
             feeAmount = maxMaintenanceFee;
         }
 
-        uint donationAmount = balanceAmount - feeAmount;
+        uint giveAwayAmount = balance - feeAmount;
 
-        charityFund.send(donationAmount);
+        uint charityDonationAmount = calculateAndSendWinnerAmount(giveAwayAmount);
+        calculateAndSendCharityAmount(charityDonationAmount);
 
-        // TODO: emit events
         lotteryClosed = true;
+    }
+
+    function calculateAndSendWinnerAmount(uint giveAwayAmount) internal finishedLottery returns (uint charityDonationAmount) {
+        uint winnerAmount = giveAwayAmount * winnerRate / 100;
+        allTickets[winnerTicketNumber].send(winnerAmount);
+        // TODO: emit events
+        return giveAwayAmount - winnerAmount;
+    }
+
+    function calculateAndSendCharityAmount(uint charityDonationAmount) internal finishedLottery {
+        charityFund.send(charityDonationAmount);
+        // TODO: emit events
     }
 
     function withdrawOwnersAmount() onlyOwner finishedLottery {
