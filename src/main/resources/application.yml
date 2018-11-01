@@ -18,6 +18,10 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:/changelogs/db.changelog-master.xml
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
 
 # Ethereum
 ethereum:
@@ -40,3 +44,8 @@ ethereum:
   receiptProcessor:
     sleepDurationMillis: 250
     attempts: 120
+
+lottery:
+  fee:
+    rate: 10
+    max: 1

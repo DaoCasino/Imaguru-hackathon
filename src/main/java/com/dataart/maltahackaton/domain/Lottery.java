@@ -23,11 +23,15 @@ public class Lottery {
 
     private String name;
 
+    private String description;
+
     private String contractAddress;
 
     private String fundName;
 
     private String fundDescription;
+
+    private String fundAddress;
 
     @Enumerated(EnumType.STRING)
     private LotteryStatus status;
@@ -44,7 +48,6 @@ public class Lottery {
 
     private Long ticketCount;
 
-    private BigDecimal donationRate;
-
     private BigDecimal prizePoolRate;
+
 }
