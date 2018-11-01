@@ -1,5 +1,6 @@
 package com.dataart.maltahackaton.service;
 
+import com.dataart.maltahackaton.blockchain.BlockchainCharity;
 import com.dataart.maltahackaton.blockchain.LotteryProvider;
 import com.dataart.maltahackaton.domain.Lottery;
 import com.dataart.maltahackaton.domain.LotteryStatus;
@@ -8,6 +9,7 @@ import com.dataart.maltahackaton.domain.dto.LotteryResponse;
 import com.dataart.maltahackaton.exception.MhException;
 import com.dataart.maltahackaton.repository.LotteryRepository;
 import com.dataart.maltahackaton.utils.BlockchainUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class LotteryService {
 
     @Value("${lottery.fee.rate}")
@@ -80,12 +83,21 @@ public class LotteryService {
     private LotteryResponse mapLotteryWithAdditionalData(Lottery lottery) {
         LotteryResponse response = modelMapper.map(lottery, LotteryResponse.class);
         response.setTimeRemaining(calculateTimeRemaining(lottery.getEndDate()));
-        BigDecimal donation = lottery.getTicketPrice().multiply(BigDecimal.valueOf(lottery.getTicketCount()));
+        BlockchainCharity blockchainCharity = lotteryProvider.loadReadOnly(lottery.getContractAddress());
+        BigDecimal donation = null;
+        Long ticketsCount = null;
+        try {
+            ticketsCount = blockchainCharity.currentTicketNumber().send().longValue() + 1L;
+            donation = lottery.getTicketPrice().multiply(BigDecimal.valueOf(ticketsCount));
+        } catch (Exception e) {
+            log.error("Error while getting currentTicketNumber: {}", e);
+        }
         response.setDonation(donation);
         BigDecimal prizePool = calculateFee(response.getDonation(), lottery.getPrizePoolRate(), BigDecimal.ZERO);
         response.setPrizePool(prizePool);
         BigDecimal profit = calculateFee(donation, feeRate, maxFee);
         response.setPayout(donation.subtract(prizePool).subtract(profit));
+        response.setTicketCount(ticketsCount);
         return response;
     }
 
