@@ -11,82 +11,91 @@
 </head>
 <body>
 
-<div style="width: 86%;">
-    <form name="lottery" class="form-horizontal" id="lotteryForm">
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <form name="lottery" class="form-horizontal" id="lotteryForm">
 
-        <div class="form-group">
-            <label for="lotteryName">Name:</label>
-            <input id="lotteryName" type="text" class="form-control"/>
-        </div>
+                <div class="form-group">
+                    <label for="lotteryName">Name:</label>
+                    <input id="lotteryName" type="text" class="form-control"  style="max-width: 480px"/>
+                </div>
 
-        <div class="form-group">
-            <label for="lotteryDescription">Description:</label>
-            <input id="lotteryDescription" class="form-control" style="width: 17%" />
-        </div>
+                <div class="form-group">
+                    <label for="lotteryDescription">Description:</label>
+                    <input id="lotteryDescription" class="form-control" style="max-width: 480px" />
+                </div>
 
-        <div class="form-group">
-            <label for="fund">Fund Name:</label>
-            <input id="fund" class="form-control" style="width: 17%"/>
-        </div>
+                <div class="form-group">
+                    <label for="fund">Fund Name:</label>
+                    <input id="fund" class="form-control" style="max-width: 480px"/>
+                </div>
 
-        <div class="form-group">
-            <label for="fundDescr">Fund Description:</label>
-            <input id="fundDescr" class="form-control" style="width: 17%"/>
-        </div>
+                <div class="form-group">
+                    <label for="fundDescr">Fund Description:</label>
+                    <input id="fundDescr" class="form-control" style="max-width: 480px"/>
+                </div>
 
-        <div class="form-group">
-            <label for="lotteryPicture">Lottery Picture</label>
-            <input id="lotteryPicture" class="addImageInput" type="file" name="images[]"/>
-        </div>
+                <div class="form-group">
+                    <label for="lotteryPicture">Lottery Picture</label>
+                    <input id="lotteryPicture" class="form-control-file addImageInput" type="file" name="images[]"/>
+                </div>
 
-        <div class="form-group">
-            <label for="fundPicture">Lottery Picture</label>
-            <input id="fundPicture" class="addImageInput" type="file" name="images[]"/>
-        </div>
+                <div class="form-group">
+                    <label for="fundPicture">Fund Picture</label>
+                    <input id="fundPicture" class="form-control-file addImageInput" type="file" name="images[]"/>
+                </div>
 
-        <div class="form-group">
-            <label for="timeBeforeRedemption">Time Before Redemption:</label>
-            <input id="timeBeforeRedemption" class="form-control" style="width: 17%"/>
-        </div>
+                <div class="form-group">
+                    <label for="timeBeforeRedemption">Time Before Redemption:</label>
+                    <input id="timeBeforeRedemption" class="form-control" style="max-width: 480px"/>
+                </div>
 
-        <div class="form-group">
-            <label for="ticketPrice">Ticket Price:</label>
-            <input id="ticketPrice" class="form-control" style="width: 17%"/>
-        </div>
+                <div class="form-group">
+                    <label for="ticketPrice">Ticket Price:</label>
+                    <input id="ticketPrice" class="form-control" style="max-width: 480px"/>
+                </div>
 
-        <div class="form-group">
-            <label for="ticketCount">Ticket Count:</label>
-            <input id="ticketCount" class="form-control" style="width: 17%"/>
-        </div>
+                <div class="form-group">
+                    <label for="rates">Redemption Distribution Percentage:</label>
+                    <div id="rates" class="form-inline">
+                        <input id="prizeRate" class="form-control" style="width: 70px"/>
+                        <label class="ml-2 mr-2">% to winner</label>
+                        <input readonly id="charityRate" class="form-control" style="width: 70px; background-color: #fbf4ff" disabled/>
+                        <label class="ml-2 mr-2">% to charity</label>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <label for="rates">Redemption Distribution Percentage:</label>
-            <div id="rates">
-                <input id="prizeRate" class="form-control" style="width: 17%"/>
-                <input id="charityRate" class="form-control" style="width: 17%"/>
-            </div>
-        </div>
+                <div class="form-group">
+                    <label for="fundAddress">Charity Fund Target ETH Wallet Address:</label>
+                    <input id="fundAddress" class="form-control" style="max-width: 480px"/>
+                </div>
 
-        <div class="form-group">
-            <label for="fundAddress">Charity Fund Target ETH Wallet Address:</label>
-            <input id="fundAddress" class="form-control" style="width: 17%"/>
+                <div style="padding: 20px 0;">
+                    <button id="createLotteryBtn" type="submit" class="btn btn-primary">Create</button>
+                    <button id="testId" type="button" class="btn btn-outline-primary ml-2">Cancel</button>
+                </div>
+            </form>
         </div>
-
-        <div style="margin-top: 10px;">
-            <button id="createLotteryBtn" type="submit" class="btn btn-success">Create</button>
-            <button id="testId" type="button" class="btn btn-warning">Cancel</button>
-        </div>
-    </form>
+    </div>
 </div>
 
 </body>
 <script th:inline="javascript">
 
+    var charityRateInput = $('#charityRate');
+    var prizeRateInput = $('#prizeRate');
+
     $(function () {
         $('#createLotteryBtn').on("click", function(event){
-            // $(this).prop("disabled", true);
+            $(this).prop("disabled", true);
             event.preventDefault();
             uploadImage();
+        });
+
+        prizeRateInput.keyup(function() {
+            var calculatedRate = 100 - prizeRateInput.val();
+            charityRateInput.val(calculatedRate);
         });
     });
 
@@ -115,8 +124,7 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                var id = data.id;
-                window.location.replace("http://localhost:8883/lotteries/getOne?id=" + id);
+                window.location.replace("http://localhost:8883/lotteries/getAll");
             }
         });
     }

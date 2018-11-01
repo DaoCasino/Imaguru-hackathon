@@ -20,6 +20,7 @@ import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -70,6 +71,8 @@ public class LotteryService {
         lottery.setStartDate(LocalDateTime.now());
         lottery.setEndDate(lottery.getStartDate().plusMinutes(createRequest.getDuration()));
         lottery.setContractAddress(contractAddress);
+        lottery.setLotteryPicture(createRequest.getImages().get(0).getBytes());
+        lottery.setFundPicture(createRequest.getImages().get(1).getBytes());
         lotteryRepository.save(lottery);
 
         return modelMapper.map(lottery, LotteryResponse.class);
@@ -98,6 +101,8 @@ public class LotteryService {
         BigDecimal profit = calculateFee(donation, feeRate, maxFee);
         response.setPayout(donation.subtract(prizePool).subtract(profit));
         response.setTicketCount(ticketsCount);
+        response.setLotteryPicture(Base64.getEncoder().encodeToString(lottery.getLotteryPicture()));
+        response.setFundPicture(Base64.getEncoder().encodeToString(lottery.getFundPicture()));
         return response;
     }
 
