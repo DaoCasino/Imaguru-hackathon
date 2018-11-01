@@ -50,6 +50,11 @@
         </div>
 
         <div class="form-group">
+            <label for="ticketCount">Ticket Count:</label>
+            <input id="ticketCount" class="form-control" style="width: 17%"/>
+        </div>
+
+        <div class="form-group">
             <label for="rates">Redemption Distribution Percentage:</label>
             <div id="rates">
                 <input id="prizeRate" class="form-control" style="width: 17%"/>
@@ -89,6 +94,7 @@
         data.append("fundDescription", $('#fundDescr').val());
         data.append("duration", $('#timeBeforeRedemption').val());
         data.append("ticketPrice", $('#ticketPrice').val());
+        data.append("ticketCount", $('#ticketCount').val());
         data.append("prizePoolRate", $('#prizeRate').val());
         data.append("fundAddress", $('#fundAddress').val());
 
@@ -105,7 +111,6 @@
             contentType: false,
             success: function (data) {
                 var id = data.id;
-                // var json = $.parseJSON(data);
                 window.location.replace("http://localhost:8883/lotteries/getOne?id=" + id);
             }
         });
