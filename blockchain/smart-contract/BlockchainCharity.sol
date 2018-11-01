@@ -1,9 +1,9 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.18;
 
 contract owned {
     address public owner;
 
-    constructor() public {
+    function owned() public {
         owner = msg.sender;
     }
 
@@ -18,7 +18,7 @@ contract CharityLottery is owned {
     address public owner;
     address public charityFund;
 
-    bool lotteryClosed = false;
+    bool public lotteryClosed = false;
     uint public deadline;
 
     uint public maintenanceFeeRate;
@@ -63,7 +63,7 @@ contract CharityLottery is owned {
         _;
     }
 
-    constructor (
+    function CharityLottery (
         address charityAddress,
         uint durationInMinutes,
         uint feePercent,
@@ -98,11 +98,11 @@ contract CharityLottery is owned {
             amountRaised += ticketPrice;
             allTickets.push(ticket);
             holderTickets[holder].push(ticket);
-            emit BuyTicket(holder, uint(currentTicketNumber), ticketPrice);
+            BuyTicket(holder, uint(currentTicketNumber), ticketPrice);
         }
     }
 
-    function finishLottery() public isReachedDeadline nonFinishedLottery {
+    function finishLottery() public {
         chooseWinner();
 
         uint balance = address(this).balance;
@@ -121,20 +121,20 @@ contract CharityLottery is owned {
     }
 
     function chooseWinner() internal winnerNotChosen {
-        winnerTicketNumber = int(keccak256(block.difficulty, block.timestamp)) % currentTicketNumber;
+        winnerTicketNumber = int(uint(keccak256(block.difficulty, block.timestamp)) % uint(currentTicketNumber));
     }
 
     function calculateAndSendWinnerAmount(uint giveAwayAmount) internal finishedLottery returns (uint charityDonationAmount) {
         uint winnerAmount = giveAwayAmount * winnerRate / 100;
         address winnerAddress = allTickets[uint(winnerTicketNumber)].holder;
         winnerAddress.transfer(winnerAmount);
-        emit WinnerTransfer(winnerAddress, winnerAmount);
+        WinnerTransfer(winnerAddress, winnerAmount);
         return giveAwayAmount - winnerAmount;
     }
 
     function calculateAndSendCharityAmount(uint charityDonationAmount) internal finishedLottery {
         charityFund.transfer(charityDonationAmount);
-        emit CharityTransfer(charityFund, charityDonationAmount);
+        CharityTransfer(charityFund, charityDonationAmount);
     }
 
     function withdrawOwnersAmount() public onlyOwner finishedLottery {
