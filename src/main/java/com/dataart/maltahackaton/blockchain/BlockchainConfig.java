@@ -52,6 +52,12 @@ public class BlockchainConfig {
     @Value("${ethereum.receiptProcessor.attempts}")
     private Integer attempts;
 
+    @Value("${ethereum.cryptocoin.gas-price}")
+    private BigInteger gasPrice;
+
+    @Value("${ethereum.cryptocoin.gas-limit}")
+    private BigInteger gasLimit;
+
     @Bean
     public Web3j web3j() {
         log.info("Building web3j service for endpoint: {}", gethUrl);

@@ -29,11 +29,14 @@ ethereum:
       maxIdleTimeSeconds: 300 # IMPORTANT!!! Should be less than server.connection-timeout
       readTimeoutSeconds: 300
       connectionTimeoutSeconds: 30
-    url: https://mainnet.infura.io/v3/4fb24e55ac7843c08408a21b61c68535
+    url: https://ropsten.infura.io/v3/4fb24e55ac7843c08408a21b61c68535
   owner:
     wallet:
-      address: "0x4a91d42d33e1f6e24bc86a52fd6a00f7aac15ee8"
-      privateKey: "79758460756326615189336916476751864146397195680622050055491221201098956741270"
+      address: "0x256382f4246118d537edc8a850193ad2029be11a"
+      privateKey: "94055137531365178106143832954883504020888134665039254757977829518867813524094"
+  cryptocoin:
+    gas-price: 22000000000
+    gas-limit: 9000000
   receiptProcessor:
     sleepDurationMillis: 250
     attempts: 120
