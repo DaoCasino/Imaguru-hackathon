@@ -5,7 +5,7 @@ import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
 contract owned {
     address public owner;
 
-    function owned() public {
+    constructor() public {
         owner = msg.sender;
     }
 
@@ -67,7 +67,7 @@ contract CharityLottery is owned, usingOraclize {
         _;
     }
 
-    function CharityLottery(
+    constructor (
         address charityAddress,
         uint durationInMinutes,
         uint feePercent,
@@ -128,7 +128,7 @@ contract CharityLottery is owned, usingOraclize {
         if (msg.sender != oraclize_cbAddress()
         || !validOraclizeIds[_queryId]
         || oraclize_randomDS_proofVerify__returnCode(_queryId, _result, _proof) == 0) {
-            throw;
+            revert();
         } else {
             int maxRange = currentTicketNumber;
             winnerTicketNumber = int(sha3(_result)) % maxRange;
