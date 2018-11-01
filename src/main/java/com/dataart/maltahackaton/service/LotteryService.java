@@ -7,7 +7,6 @@ import com.dataart.maltahackaton.domain.dto.LotteryResponse;
 import com.dataart.maltahackaton.exception.MhException;
 import com.dataart.maltahackaton.repository.LotteryRepository;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +14,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,9 +33,20 @@ public class LotteryService {
         this.modelMapper = modelMapper;
     }
 
-    public List<LotteryResponse> getAll() {
-        return modelMapper.map(lotteryRepository.findAll(), new TypeToken<List<LotteryResponse>>() {
-        }.getType());
+    public List<LotteryResponse> findAllActive() {
+        List<Lottery> lotteries = lotteryRepository.findAllByStatus(LotteryStatus.ACTIVE);
+        return mapToResponseObjects(lotteries);
+    }
+
+    public List<LotteryResponse> findAllInactive() {
+        List<Lottery> lotteries = lotteryRepository.findAllByStatus(LotteryStatus.INACTIVE);
+        return mapToResponseObjects(lotteries);
+    }
+
+    private List<LotteryResponse> mapToResponseObjects(List<Lottery> lotteries) {
+        List<LotteryResponse> lotteryResponses = new ArrayList<>();
+        lotteries.forEach(lottery -> lotteryResponses.add(mapLotteryWithAdditionalData(lottery)));
+        return lotteryResponses;
     }
 
     public LotteryResponse createLottery(LotteryCreateRequest createRequest) {
@@ -50,10 +61,18 @@ public class LotteryService {
 
     public LotteryResponse getLotteryById(Long id) {
         Lottery lottery = lotteryRepository.findById(id).orElseThrow(() -> new MhException("Lottery not found"));
+        return mapLotteryWithAdditionalData(lottery);
+    }
+
+    private LotteryResponse mapLotteryWithAdditionalData(Lottery lottery) {
         LotteryResponse response = modelMapper.map(lottery, LotteryResponse.class);
         response.setTimeRemaining(calculateTimeRemaining(lottery.getEndDate()));
-        response.setDonation(lottery.getTicketPrice().multiply(BigDecimal.valueOf(lottery.getTicketCount())));
-        response.setPrizePool(calculateFee(response.getDonation(), lottery.getPrizePoolRate(), BigDecimal.ZERO));
+        BigDecimal donation = lottery.getTicketPrice().multiply(BigDecimal.valueOf(lottery.getTicketCount()));
+        response.setDonation(donation);
+        BigDecimal prizePool = calculateFee(response.getDonation(), lottery.getPrizePoolRate(), BigDecimal.ZERO);
+        response.setPrizePool(prizePool);
+        BigDecimal profit = calculateFee(donation, feeRate, maxFee);
+        response.setPayout(donation.subtract(prizePool).subtract(profit));
         return response;
     }
 
