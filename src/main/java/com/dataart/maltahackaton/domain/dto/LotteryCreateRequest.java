@@ -11,8 +11,6 @@ public class LotteryCreateRequest {
 
     private String name;
     private String description;
-    private String fundName;
-    private String fundDescription;
     private Long duration;
     private BigDecimal ticketPrice;
     private BigDecimal prizePoolRate;

@@ -138,6 +138,10 @@ public class LotteryService {
     }
 
     private String calculateTimeRemaining(LocalDateTime endDate) {
+        if (endDate.isBefore(LocalDateTime.now())) {
+            return "0";
+        }
+
         Duration duration = Duration.between(LocalDateTime.now(), endDate);
 
         long seconds = Math.abs(duration.getSeconds());

@@ -16,7 +16,7 @@
         <img src="../static/images/logo.svg" alt="Logo" th:src="@{/images/logo.svg}"/>
     </a>
     <ul class="navigation">
-        <li class="active"><a th:href="@{/lotteries}">Lotteries</a></li>
+        <li class="active"><a th:href="@{/lotteries/getAll}">Lotteries</a></li>
         <li><a th:href="@{/games}">Games</a></li>
         <li><a href="#" data-toggle="modal" data-target="#aboutModal">About Us</a></li>
     </ul>
@@ -47,7 +47,8 @@
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
                                 <div class="lottery-logo">
-                                    <img src="" th:src="*{'data:image/png;base64,'+ lottery.getFundPicture()}" alt="logo"/>
+                                    <img src="" th:src="*{'data:image/png;base64,'+ lottery.getFundPicture()}"
+                                         alt="logo"/>
                                 </div>
                                 <div class="lottery-descr">
                                     <input type="hidden" th:value="${'/lotteries/' + lottery.id}"/>
@@ -86,11 +87,13 @@
             <h2>Finished Lotteries</h2>
             <div class="lottery-boxes">
                 <th:block th:each="lottery : ${inactiveLoteries}">
-                    <div class="box lottery-box bg-light finished-box" data-toggle="modal" data-target="#lotteryFinishedModal">
+                    <div class="box lottery-box bg-light finished-box" data-toggle="modal"
+                         data-target="#lotteryFinishedModal">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
                                 <div class="lottery-logo">
-                                    <img src="" th:src="*{'data:image/png;base64,'+ lottery.getFundPicture()}" alt="logo"/>
+                                    <img src="" th:src="*{'data:image/png;base64,'+ lottery.getFundPicture()}"
+                                         alt="logo"/>
                                 </div>
                                 <div class="lottery-descr">
                                     <input type="hidden" th:value="${'/lotteries/' + lottery.id}"/>
@@ -134,7 +137,7 @@
                         <li>
                             <i class="currency text-primary fab fa-ethereum"></i>
                             <b th:text="${lottery.payout}"></b>
-                            <span th:text="'to ' + ${lottery.fundName}"></span>
+                            <span th:text="'to ' + ${lottery.name}"></span>
                             <i class="last text-primary fal fa-link"></i>
                         </li>
                     </th:block>
@@ -204,10 +207,10 @@
                 <form action="#">
                     <div class="form-group">
                         <label for="inputName">Enter my Wallet ID:</label>
-                        <input type="text" class="form-control" id="inputName" aria-describedby="emailHelp"
+                        <input type="text" class="form-control" id="checkMyInput" aria-describedby="emailHelp"
                                placeholder="Contains 40 symbols, starting with 0x">
                     </div>
-                    <button type="submit" class="btn btn-primary">Check Tickets</button>
+                    <button id="checkMyBtn" type="submit" class="btn btn-primary">Check Tickets</button>
                 </form>
                 <h2 class="mt-5">My Active Lotteries</h2>
                 <div class="lottery-boxes">
@@ -333,9 +336,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mb-4">In cancer care, doctors specializing in different areas of cancer treatment—such as
-                        surgery, radiation oncology, and medical oncology—work together to create a patient’s overall
-                        treatment plan that combines different types of treatments.</p>
+                    <p class="mb-4" id="finishedLotteryDescriptionP"></p>
                     <div class="lottery-details-list row">
                         <div class="col-md-3 text-center">
                             <div class="lottery-details-label">
@@ -412,9 +413,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mb-4">In cancer care, doctors specializing in different areas of cancer treatment—such as
-                        surgery, radiation oncology, and medical oncology—work together to create a patient’s overall
-                        treatment plan that combines different types of treatments.</p>
+                    <p class="mb-4" id="activeLotteryDescriptionP"></p>
                     <div class="lottery-details-list row mb-5">
                         <div class="col-md-3 text-center">
                             <div class="lottery-details-label">
@@ -469,7 +468,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="qty">Qty of Tickets to buy</label>
-                                        <input class="qty form-control" type="number" min="1" data-price="0.325" value="1" id="qty">
+                                        <input class="qty form-control" type="number" min="1" data-price="0.325"
+                                               value="1" id="qty">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -510,6 +510,7 @@
     var finishedDonationDiv = $('div#finishedDonationDiv');
     var finishedTicketCountDiv = $('div#finishedTicketCountDiv');
     var finishedFundPictureImg = $('img#finishedFundPictureImg');
+    var finishedLotteryDescriptionP = $('p#finishedLotteryDescriptionP');
 
     var activeLotteryNameDiv = $('div#activeLotteryNameDiv');
     var activeLotteryRemainingDiv = $('div#activeLotteryRemainingDiv');
@@ -518,6 +519,10 @@
     var activeDonationDiv = $('div#activeDonationDiv');
     var activeTicketCountDiv = $('div#activeTicketCountDiv');
     var activeFundPictureImg = $('img#activeFundPictureImg');
+    var activeLotteryDescriptionP = $('p#activeLotteryDescriptionP');
+
+    var checkMyLotteriesBtn = $('#checkMyBtn');
+    var checkMyInput = $('#checkMyInput');
 
     $(function () {
         console.log("valera");
@@ -535,6 +540,7 @@
                 finishedPrizePoolDiv.text(data.prizePool + " ETH");
                 finishedDonationDiv.text(data.donation + " ETH");
                 finishedTicketCountDiv.text(data.ticketCount);
+                finishedLotteryDescriptionP.text(data.description);
                 finishedFundPictureImg.attr("src", "data:image/png;base64," + data.fundPicture);
             })
         });
@@ -550,14 +556,31 @@
                 activePrizePoolDiv.text(data.prizePool + " ETH");
                 activeDonationDiv.text(data.donation + " ETH");
                 activeTicketCountDiv.text(data.ticketCount);
+                activeLotteryDescriptionP.text(data.description);
                 activeFundPictureImg.attr("src", "data:image/png;base64," + data.fundPicture);
             })
         });
+
+        checkMyLotteriesBtn.on("click", function () {
+            var address = checkMyInput.val();
+            getWanLotteries(address).done(function (data) {
+
+            })
+        });
+
     });
 
     function getLotteryData(uri) {
         return $.ajax({
             url: uri,
+            type: 'GET',
+            dataType: 'json'
+        });
+    }
+
+    function getWanLotteries(address) {
+        return $.ajax({
+            url: '',
             type: 'GET',
             dataType: 'json'
         });
