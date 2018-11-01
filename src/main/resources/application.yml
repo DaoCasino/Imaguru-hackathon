@@ -21,8 +21,6 @@ spring:
 
 # Ethereum
 ethereum:
-  initial:
-    ether: 1000000000000000
   geth:
     connPool:
       maxConnTotal: 100
@@ -36,10 +34,6 @@ ethereum:
     wallet:
       address: "0x4a91d42d33e1f6e24bc86a52fd6a00f7aac15ee8"
       privateKey: "79758460756326615189336916476751864146397195680622050055491221201098956741270"
-  cryptocoin:
-    gas-price: 20000000000
-    gas-limit: 20000000
   receiptProcessor:
     sleepDurationMillis: 250
     attempts: 120
-  batch-size: 300
