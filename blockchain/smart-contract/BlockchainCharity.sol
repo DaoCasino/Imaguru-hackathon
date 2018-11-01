@@ -28,7 +28,6 @@ contract CharityLottery is owned {
     uint public amountRaised = 0;
 
     uint public winnerRate;
-    uint public charityRate;
 
     struct Ticket {
         uint ticketNumber;
@@ -70,11 +69,8 @@ contract CharityLottery is owned {
         uint feePercent,
         uint maxFee,
         uint priceForTheTicket,
-        uint winnerPercent,
-        uint charityPercent
+        uint winnerPercent
     ) public {
-        require(winnerPercent + charityPercent == 100);
-
         owner = msg.sender;
         charityFund = charityAddress;
         deadline = now + durationInMinutes * 1 minutes;
@@ -82,7 +78,6 @@ contract CharityLottery is owned {
         maxMaintenanceFee = maxFee;
         ticketPrice = priceForTheTicket;
         winnerRate = winnerPercent;
-        charityRate = charityPercent;
     }
 
     function() payable public {
@@ -94,7 +89,6 @@ contract CharityLottery is owned {
 
         require(amount % ticketPrice == 0);
 
-        uint amountToReturn = amount % ticketPrice;
         uint ticketAmount = amount / ticketPrice;
 
         for (uint i = 0; i < ticketAmount; i++) {
@@ -133,17 +127,17 @@ contract CharityLottery is owned {
     function calculateAndSendWinnerAmount(uint giveAwayAmount) internal finishedLottery returns (uint charityDonationAmount) {
         uint winnerAmount = giveAwayAmount * winnerRate / 100;
         address winnerAddress = allTickets[uint(winnerTicketNumber)].holder;
-        winnerAddress.send(winnerAmount);
+        winnerAddress.transfer(winnerAmount);
         emit WinnerTransfer(winnerAddress, winnerAmount);
         return giveAwayAmount - winnerAmount;
     }
 
     function calculateAndSendCharityAmount(uint charityDonationAmount) internal finishedLottery {
-        charityFund.send(charityDonationAmount);
+        charityFund.transfer(charityDonationAmount);
         emit CharityTransfer(charityFund, charityDonationAmount);
     }
 
-    function withdrawOwnersAmount() onlyOwner finishedLottery {
+    function withdrawOwnersAmount() public onlyOwner finishedLottery {
         require(msg.sender.send(address(this).balance));
     }
 }
