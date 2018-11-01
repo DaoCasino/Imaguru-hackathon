@@ -16,11 +16,6 @@ public class AdminController {
         this.lotteryService = lotteryService;
     }
 
-    @GetMapping("login")
-    public String getLogin(Model model) {
-        return "login";
-    }
-
     @GetMapping("admin/createLottery")
     public String createLotteryPage(Model model) {
         return "lotteryCreate";
