@@ -67,11 +67,11 @@ public class BlockchainConfig {
     @Bean
     public OkHttpClient gethHttpClient() {
         log.info("Building new OkHttpClient");
-        var connectionPool = new ConnectionPool(
+        ConnectionPool connectionPool = new ConnectionPool(
                 maxConnIdle,
                 maxIdleTimeSeconds,
                 TimeUnit.SECONDS);
-        var dispatcher = new Dispatcher();
+        Dispatcher dispatcher = new Dispatcher();
         dispatcher.setMaxRequestsPerHost(maxConnPerRoute);
         dispatcher.setMaxRequests(maxConnTotal);
         return new OkHttpClient.Builder()
