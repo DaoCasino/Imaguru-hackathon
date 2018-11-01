@@ -1,43 +1,96 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
-    <title>Lotteries</title>
     <th:block th:include="fragments/include :: head"></th:block>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBH</title>
+    <link th:href="@{'https://fonts.googleapis.com/css?family=Lato:400,700,900'}" rel="stylesheet">
+    <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen"/>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" media="screen"/>
 </head>
 <body>
-<div style="width: 86%;">
-    <table border="1" style="width:300px">
-        <tr>
-            <td>Lottery ID</td>
-            <td>Lottery Name</td>
-            <td>Lottery Fund Name</td>
-            <td>Start Date</td>
-            <td>End Date</td>
-            <td>Ticket Price</td>
-            <td>Tickets Count</td>
-            <td>Donation</td>
-            <td>Prize Pool</td>
-        </tr>
-        <th:block th:each="lottery : ${lotteries}">
-            <tr>
-                <td th:text="${lottery.id}"></td>
-                <td th:text="${lottery.name}"></td>
-                <td th:text="${lottery.fundName}"></td>
-                <td th:text="${lottery.startDate}"></td>
-                <td th:text="${lottery.endDate}"></td>
-                <td th:text="${lottery.ticketPrice}"></td>
-                <td th:text="${lottery.ticketCount}"></td>
-                <td th:text="${lottery.donation}"></td>
-                <td th:text="${lottery.prizePool}"></td>
-            </tr>
-        </th:block>
-    </table>
+
+<header id="header" class="container-fluid d-flex align-items-center">
+    <a href="#" class="logo">
+        <img src="../static/images/logo.svg" alt="Logo" th:src="@{/images/logo.svg}"/>
+    </a>
+    <ul class="navigation">
+        <li class="active"><a href="#">Lotteries</a></li>
+        <li><a href="#">Games</a></li>
+        <li><a href="#" data-toggle="modal" data-target="#aboutModal">About Us</a></li>
+    </ul>
+    <button data-toggle="modal" data-target="#checkModal" class="btn-check">
+        Check my Lotteries
+    </button>
+</header>
+
+<div class="hero">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <img class="hero-logo" th:src="@{/images/logo2.svg}" alt="Logo">
+                <p>Blockchain lottery service for charity funds around the world</p>
+                <button data-toggle="modal" data-target="#aboutModal" class="btn btn-warning">Learn More</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+<main class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 main-column">
+            <h2>Active Lotteries</h2>
+            <div class="lottery-boxes">
+                <th:block th:each="lottery : ${lotteries}">
+                    <div class="box lottery-box">
+                        <div class="row">
+                            <div class="col-md-8 d-flex align-items-center">
+                                <div class="lottery-logo">
+                                    <img src="" th:src="@{/images/bitmap.png}" alt="logo"/>
+                                </div>
+                                <div class="lottery-descr">
+                                    <div class="lottery-heading">
+                                        <div th:text="${lottery.name}" class="lottery-name"></div>
+                                    </div>
+                                    <ul class="icon-list">
+                                        <li>
+                                            <i class="icon-list-icon fas fa-ticket-alt text-warning"></i>
+                                            <span th:text="${lottery.ticketPrice}"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon fab fa-ethereum"></i>
+                                            <span th:text="${lottery.prizePool}"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon fab fa-ethereum text-primary"></i>
+                                            <span th:text="${lottery.donation}"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon far fa-check-double"></i>
+                                            <span th:text="${lottery.ticketCount}"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="lottery-name"></div>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <div class="time-label">Time Remaining</div>
+                                <div class="time-value" th:text="${lottery.timeRemaining}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</main>
+
 </body>
 <script th:inline="javascript">
 
     $(function () {
-       console.log("valera");
+        console.log("valera");
     })
 
 </script>

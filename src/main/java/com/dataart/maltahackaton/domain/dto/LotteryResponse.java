@@ -11,7 +11,7 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 import static org.springframework.format.annotation.DateTimeFormat.ISO.TIME;
 
 @Data
-public class LotteryDto {
+public class LotteryResponse {
 
     private Long id;
     private String name;
@@ -27,5 +27,6 @@ public class LotteryDto {
     private Long ticketCount;
     private BigDecimal donation;
     private BigDecimal prizePool;
+    private String timeRemaining;
 
 }

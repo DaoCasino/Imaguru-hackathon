@@ -11,11 +11,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login**").permitAll()
                 .antMatchers("/lotteries/**").permitAll()
                 .antMatchers("/static/**").permitAll()
+                .antMatchers("/images/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/js/**").permitAll()
+                .antMatchers("/fonts/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/admin/**").permitAll()
+                .antMatchers("/login**").permitAll()
+//                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/**").access("hasRole('ROLE_USER')")
                 .and()
                 .formLogin().loginPage("/login").failureUrl("/login?error")
