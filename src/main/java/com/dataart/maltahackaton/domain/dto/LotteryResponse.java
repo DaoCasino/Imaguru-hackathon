@@ -27,6 +27,7 @@ public class LotteryResponse {
     private Long ticketCount;
     private BigDecimal donation;
     private BigDecimal prizePool;
+    private BigDecimal payout;
     private String timeRemaining;
 
 }
