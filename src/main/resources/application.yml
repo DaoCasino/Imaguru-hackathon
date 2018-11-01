@@ -40,9 +40,9 @@ ethereum:
       privateKey: "94055137531365178106143832954883504020888134665039254757977829518867813524094"
   cryptocoin:
     gas-price: 22000000000
-    gas-limit: 8000000
+    gas-limit: 4300000
   receiptProcessor:
-    sleepDurationMillis: 250
+    sleepDurationMillis: 500
     attempts: 120
 
 lottery:

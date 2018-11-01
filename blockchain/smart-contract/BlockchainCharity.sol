@@ -87,6 +87,7 @@ contract CharityLottery is owned {
 
     function() payable public {
         require(!lotteryClosed);
+        require(now <= deadline);
 
         uint amount = msg.value;
         address holder = msg.sender;
