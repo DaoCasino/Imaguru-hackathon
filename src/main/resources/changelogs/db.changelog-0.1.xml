@@ -82,25 +82,14 @@
             <column name="end_date" type="timestamp">
                 <constraints nullable="false"/>
             </column>
-            <column name="ticket_count" type="bigint"/>
+            <column name="lottery_picture" type="bytea">
+                <!--<constraints nullable="false"/>-->
+            </column>
+            <column name="fund_picture" type="bytea">
+                <!--<constraints nullable="false"/>-->
+            </column>
             <column name="completed" type="boolean" defaultValue="false"/>
         </createTable>
-
-        <insert tableName="lottery">
-            <column name="name">Test Lottery</column>
-            <column name="description">Test lottery description</column>
-            <column name="status">INACTIVE</column>
-            <column name="fund_name">Test Fund</column>
-            <column name="fund_description">Fund description</column>
-            <column name="fund_address">0x4a91d42d33e1f6e24bc86a52fd6a00f7aac15ee8</column>
-            <column name="contract_address">0x4a91d42d33e1f6e24bc86a52fd6a00f7aac15ee7</column>
-            <column name="start_date">2018-11-01 17:05:19.584090</column>
-            <column name="end_date">2018-11-02 17:05:19.584090</column>
-            <column name="ticket_price">0.08</column>
-            <column name="ticket_count">385</column>
-            <column name="prize_pool_rate">20</column>
-            <column name="completed">true</column>
-        </insert>
 
     </changeSet>
 

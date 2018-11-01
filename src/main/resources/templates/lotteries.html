@@ -47,7 +47,7 @@
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
                                 <div class="lottery-logo">
-                                    <img src="" th:src="@{/images/bitmap.png}" alt="logo"/>
+                                    <img src="" th:src="*{'data:image/png;base64,'+ lottery.getFundPicture()}" alt="logo"/>
                                 </div>
                                 <div class="lottery-descr">
                                     <input type="hidden" th:value="${'/lotteries/' + lottery.id}"/>
@@ -90,7 +90,7 @@
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
                                 <div class="lottery-logo">
-                                    <img src="" th:src="@{/images/bitmap.png}" alt="logo"/>
+                                    <img src="" th:src="*{'data:image/png;base64,'+ lottery.getFundPicture()}" alt="logo"/>
                                 </div>
                                 <div class="lottery-descr">
                                     <input type="hidden" th:value="${'/lotteries/' + lottery.id}"/>
@@ -324,7 +324,7 @@
                         <div class="row">
                             <div class="col-md-9 d-flex align-items-center">
                                 <div class="lottery-logo">
-                                    <img src="" th:src="@{/images/bitmap.png}" alt="logo">
+                                    <img id="finishedFundPictureImg" src="" alt="logo">
                                 </div>
                                 <div id="finishedLotteryNameDiv" class="lottery-name"></div>
                             </div>
@@ -402,7 +402,7 @@
                         <div class="row">
                             <div class="col-md-9 d-flex align-items-center">
                                 <div class="lottery-logo">
-                                    <img src="" th:src="@{/images/bitmap.png}" alt="logo">
+                                    <img id="activeFundPictureImg" src="" alt="logo">
                                 </div>
                                 <div id="activeLotteryNameDiv" class="lottery-name"></div>
                             </div>
@@ -509,6 +509,7 @@
     var finishedPrizePoolDiv = $('div#finishedPrizePoolDiv');
     var finishedDonationDiv = $('div#finishedDonationDiv');
     var finishedTicketCountDiv = $('div#finishedTicketCountDiv');
+    var finishedFundPictureImg = $('img#finishedFundPictureImg');
 
     var activeLotteryNameDiv = $('div#activeLotteryNameDiv');
     var activeLotteryRemainingDiv = $('div#activeLotteryRemainingDiv');
@@ -516,6 +517,7 @@
     var activePrizePoolDiv = $('div#activePrizePoolDiv');
     var activeDonationDiv = $('div#activeDonationDiv');
     var activeTicketCountDiv = $('div#activeTicketCountDiv');
+    var activeFundPictureImg = $('img#activeFundPictureImg');
 
     $(function () {
         console.log("valera");
@@ -533,6 +535,7 @@
                 finishedPrizePoolDiv.text(data.prizePool + " ETH");
                 finishedDonationDiv.text(data.donation + " ETH");
                 finishedTicketCountDiv.text(data.ticketCount);
+                finishedFundPictureImg.attr("src", "data:image/png;base64," + data.fundPicture);
             })
         });
 
@@ -547,6 +550,7 @@
                 activePrizePoolDiv.text(data.prizePool + " ETH");
                 activeDonationDiv.text(data.donation + " ETH");
                 activeTicketCountDiv.text(data.ticketCount);
+                activeFundPictureImg.attr("src", "data:image/png;base64," + data.fundPicture);
             })
         });
     });

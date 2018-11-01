@@ -29,5 +29,7 @@ public class LotteryResponse {
     private BigDecimal prizePool;
     private BigDecimal payout;
     private String timeRemaining;
+    private String lotteryPicture;
+    private String fundPicture;
 
 }

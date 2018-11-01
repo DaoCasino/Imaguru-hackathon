@@ -46,8 +46,10 @@ public class Lottery {
 
     private BigDecimal ticketPrice;
 
-    private Long ticketCount;
-
     private BigDecimal prizePoolRate;
+
+    private byte[] lotteryPicture;
+
+    private byte[] fundPicture;
 
 }
