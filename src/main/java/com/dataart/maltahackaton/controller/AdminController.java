@@ -28,7 +28,7 @@ public class AdminController {
 
     @PostMapping(value = "admin/createLottery", consumes = "multipart/form-data")
     @ResponseBody
-    public LotteryResponse createLottery(@ModelAttribute LotteryCreateRequest lottery) {
+    public LotteryResponse createLottery(@ModelAttribute LotteryCreateRequest lottery) throws Exception {
         return lotteryService.createLottery(lottery);
     }
 }

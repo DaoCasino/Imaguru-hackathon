@@ -1,7 +1,5 @@
 pragma solidity ^0.4.24;
 
-import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
-
 contract owned {
     address public owner;
 
@@ -15,13 +13,7 @@ contract owned {
     }
 }
 
-contract CharityLottery is owned, usingOraclize {
-
-    uint oraclizeRandomBytesAmount = 7;
-    uint oraclizeDelay = 0;
-    uint callbackGas = 200000; // TODO: check gas consumption
-
-    mapping(bytes32 => bool) validOraclizeIds;
+contract CharityLottery is owned {
 
     address public owner;
     address public charityFund;
@@ -36,7 +28,6 @@ contract CharityLottery is owned, usingOraclize {
     uint public amountRaised = 0;
 
     uint public winnerRate;
-    uint public charityRate;
 
     struct Ticket {
         uint ticketNumber;
@@ -67,17 +58,19 @@ contract CharityLottery is owned, usingOraclize {
         _;
     }
 
+    modifier winnerNotChosen() {
+        require(winnerTicketNumber == - 1);
+        _;
+    }
+
     constructor (
         address charityAddress,
         uint durationInMinutes,
         uint feePercent,
         uint maxFee,
         uint priceForTheTicket,
-        uint winnerPercent,
-        uint charityPercent
+        uint winnerPercent
     ) public {
-        require(winnerPercent + charityPercent == 100);
-
         owner = msg.sender;
         charityFund = charityAddress;
         deadline = now + durationInMinutes * 1 minutes;
@@ -85,18 +78,17 @@ contract CharityLottery is owned, usingOraclize {
         maxMaintenanceFee = maxFee;
         ticketPrice = priceForTheTicket;
         winnerRate = winnerPercent;
-        charityRate = charityPercent;
     }
 
     function() payable public {
         require(!lotteryClosed);
+        require(now <= deadline);
 
         uint amount = msg.value;
         address holder = msg.sender;
 
         require(amount % ticketPrice == 0);
 
-        uint amountToReturn = amount % ticketPrice;
         uint ticketAmount = amount / ticketPrice;
 
         for (uint i = 0; i < ticketAmount; i++) {
@@ -110,34 +102,9 @@ contract CharityLottery is owned, usingOraclize {
         }
     }
 
-    function requestTicketWinnerNumber() public isReachedDeadline nonFinishedLottery {
-        oraclize_setProof(proofType_Ledger);
+    function finishLottery() public isReachedDeadline nonFinishedLottery {
+        chooseWinner();
 
-        bytes32 queryId = oraclize_newRandomDSQuery(oraclizeDelay, oraclizeRandomBytesAmount, callbackGas);
-
-        // Needed to check in callback function
-        validOraclizeIds[queryId] = true;
-    }
-
-    /*
-        Oraclize proof callback.
-        Called when random number is generated
-    */
-    function __callback(bytes32 _queryId, string _result, bytes _proof)
-    {
-        if (msg.sender != oraclize_cbAddress()
-        || !validOraclizeIds[_queryId]
-        || oraclize_randomDS_proofVerify__returnCode(_queryId, _result, _proof) == 0) {
-            revert();
-        } else {
-            int maxRange = currentTicketNumber;
-            winnerTicketNumber = int(sha3(_result)) % maxRange;
-
-            finishLottery();
-        }
-    }
-
-    function finishLottery() internal nonFinishedLottery isReachedDeadline {
         uint balance = address(this).balance;
         uint feeAmount = balance * maintenanceFeeRate / 100;
 
@@ -153,20 +120,24 @@ contract CharityLottery is owned, usingOraclize {
         lotteryClosed = true;
     }
 
+    function chooseWinner() internal winnerNotChosen {
+        winnerTicketNumber = int(keccak256(block.difficulty, block.timestamp)) % currentTicketNumber;
+    }
+
     function calculateAndSendWinnerAmount(uint giveAwayAmount) internal finishedLottery returns (uint charityDonationAmount) {
         uint winnerAmount = giveAwayAmount * winnerRate / 100;
         address winnerAddress = allTickets[uint(winnerTicketNumber)].holder;
-        winnerAddress.send(winnerAmount);
+        winnerAddress.transfer(winnerAmount);
         emit WinnerTransfer(winnerAddress, winnerAmount);
         return giveAwayAmount - winnerAmount;
     }
 
     function calculateAndSendCharityAmount(uint charityDonationAmount) internal finishedLottery {
-        charityFund.send(charityDonationAmount);
+        charityFund.transfer(charityDonationAmount);
         emit CharityTransfer(charityFund, charityDonationAmount);
     }
 
-    function withdrawOwnersAmount() onlyOwner finishedLottery {
+    function withdrawOwnersAmount() public onlyOwner finishedLottery {
         require(msg.sender.send(address(this).balance));
     }
 }

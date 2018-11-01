@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.http.HttpService;
+import org.web3j.protocol.core.methods.response.Web3ClientVersion;
+import org.web3j.protocol.infura.InfuraHttpService;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.concurrent.TimeUnit;
 
@@ -59,9 +61,12 @@ public class BlockchainConfig {
     private BigInteger gasLimit;
 
     @Bean
-    public Web3j web3j() {
+    public Web3j web3j() throws IOException {
         log.info("Building web3j service for endpoint: {}", gethUrl);
-        return Web3j.build(new HttpService(gethUrl, gethHttpClient(), true));
+        Web3j web3j = Web3j.build(new InfuraHttpService(gethUrl));
+        Web3ClientVersion web3ClientVersion = web3j.web3ClientVersion().send();
+        log.info("Geth version: {}", web3ClientVersion.getWeb3ClientVersion());
+        return web3j;
     }
 
     @Bean

@@ -1,16 +1,19 @@
 package com.dataart.maltahackaton.service;
 
+import com.dataart.maltahackaton.blockchain.LotteryProvider;
 import com.dataart.maltahackaton.domain.Lottery;
 import com.dataart.maltahackaton.domain.LotteryStatus;
 import com.dataart.maltahackaton.domain.dto.LotteryCreateRequest;
 import com.dataart.maltahackaton.domain.dto.LotteryResponse;
 import com.dataart.maltahackaton.exception.MhException;
 import com.dataart.maltahackaton.repository.LotteryRepository;
+import com.dataart.maltahackaton.utils.BlockchainUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -27,10 +30,12 @@ public class LotteryService {
 
     private final LotteryRepository lotteryRepository;
     private final ModelMapper modelMapper;
+    private final LotteryProvider lotteryProvider;
 
-    public LotteryService(LotteryRepository lotteryRepository, ModelMapper modelMapper) {
+    public LotteryService(LotteryRepository lotteryRepository, ModelMapper modelMapper, LotteryProvider lotteryProvider) {
         this.lotteryRepository = lotteryRepository;
         this.modelMapper = modelMapper;
+        this.lotteryProvider = lotteryProvider;
     }
 
     public List<LotteryResponse> findAllActive() {
@@ -49,13 +54,21 @@ public class LotteryService {
         return lotteryResponses;
     }
 
-    public LotteryResponse createLottery(LotteryCreateRequest createRequest) {
+    public LotteryResponse createLottery(LotteryCreateRequest createRequest) throws Exception {
+        String contractAddress = lotteryProvider.deploy(createRequest.getFundAddress(),
+                BigInteger.valueOf(createRequest.getDuration()),
+                BlockchainUtils.convertToBlockchainUnits(feeRate),
+                BlockchainUtils.convertToBlockchainUnits(maxFee),
+                BlockchainUtils.convertToBlockchainUnits(createRequest.getTicketPrice()),
+                BlockchainUtils.convertToBlockchainUnits(createRequest.getPrizePoolRate()));
+
         Lottery lottery = modelMapper.map(createRequest, Lottery.class);
         lottery.setStatus(LotteryStatus.ACTIVE);
         lottery.setStartDate(LocalDateTime.now());
         lottery.setEndDate(lottery.getStartDate().plusMinutes(createRequest.getDuration()));
-        lottery.setContractAddress("");
+        lottery.setContractAddress(contractAddress);
         lotteryRepository.save(lottery);
+
         return modelMapper.map(lottery, LotteryResponse.class);
     }
 
