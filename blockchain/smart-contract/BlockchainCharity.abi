@@ -51,24 +51,6 @@
 		"type": "function"
 	},
 	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "myid",
-				"type": "bytes32"
-			},
-			{
-				"name": "result",
-				"type": "string"
-			}
-		],
-		"name": "__callback",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"constant": true,
 		"inputs": [],
 		"name": "deadline",
@@ -84,21 +66,8 @@
 	},
 	{
 		"constant": false,
-		"inputs": [
-			{
-				"name": "_queryId",
-				"type": "bytes32"
-			},
-			{
-				"name": "_result",
-				"type": "string"
-			},
-			{
-				"name": "_proof",
-				"type": "bytes"
-			}
-		],
-		"name": "__callback",
+		"inputs": [],
+		"name": "finishLottery",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -158,15 +127,6 @@
 		],
 		"payable": false,
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "requestTicketWinnerNumber",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{

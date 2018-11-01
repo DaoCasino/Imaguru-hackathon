@@ -126,7 +126,7 @@ contract CharityLottery is owned {
     }
 
     function chooseWinner() internal winnerNotChosen {
-        winnerTicketNumber = uint256(keccak256(block.difficulty, block.timestamp)) % currentTicketNumber;
+        winnerTicketNumber = int(keccak256(block.difficulty, block.timestamp)) % currentTicketNumber;
     }
 
     function calculateAndSendWinnerAmount(uint giveAwayAmount) internal finishedLottery returns (uint charityDonationAmount) {
