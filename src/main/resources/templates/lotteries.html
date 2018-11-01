@@ -16,7 +16,7 @@
         <img src="../static/images/logo.svg" alt="Logo" th:src="@{/images/logo.svg}"/>
     </a>
     <ul class="navigation">
-        <li class="active"><a th:href="@{/lotteries}">Lotteries</a></li>
+        <li class="active"><a th:href="@{/lotteries/getAll}">Lotteries</a></li>
         <li><a th:href="@{/games}">Games</a></li>
         <li><a href="#" data-toggle="modal" data-target="#aboutModal">About Us</a></li>
     </ul>
@@ -42,12 +42,13 @@
         <div class="col-md-8 main-column">
             <h2>Active Lotteries</h2>
             <div class="lottery-boxes">
-                <th:block th:each="lottery : ${activeLoteries}">
+                <th:block th:each="lottery : ${activeLotteries}">
                     <div class="box lottery-box active-box" data-toggle="modal" data-target="#lotteryModal">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
                                 <div class="lottery-logo">
-                                    <img src="" th:src="*{'data:image/png;base64,'+ lottery.getFundPicture()}" alt="logo"/>
+                                    <img src="" th:src="*{'data:image/png;base64,'+ lottery.getFundPicture()}"
+                                         alt="logo"/>
                                 </div>
                                 <div class="lottery-descr">
                                     <input type="hidden" th:value="${'/lotteries/' + lottery.id}"/>
@@ -85,12 +86,14 @@
 
             <h2>Finished Lotteries</h2>
             <div class="lottery-boxes">
-                <th:block th:each="lottery : ${inactiveLoteries}">
-                    <div class="box lottery-box bg-light finished-box" data-toggle="modal" data-target="#lotteryFinishedModal">
+                <th:block th:each="lottery : ${inactiveLotteries}">
+                    <div class="box lottery-box bg-light finished-box" data-toggle="modal"
+                         data-target="#lotteryFinishedModal">
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
                                 <div class="lottery-logo">
-                                    <img src="" th:src="*{'data:image/png;base64,'+ lottery.getFundPicture()}" alt="logo"/>
+                                    <img src="" th:src="*{'data:image/png;base64,'+ lottery.getFundPicture()}"
+                                         alt="logo"/>
                                 </div>
                                 <div class="lottery-descr">
                                     <input type="hidden" th:value="${'/lotteries/' + lottery.id}"/>
@@ -134,7 +137,7 @@
                         <li>
                             <i class="currency text-primary fab fa-ethereum"></i>
                             <b th:text="${lottery.payout}"></b>
-                            <span th:text="'to ' + ${lottery.fundName}"></span>
+                            <span th:text="'to ' + ${lottery.name}"></span>
                             <i class="last text-primary fal fa-link"></i>
                         </li>
                     </th:block>
@@ -204,49 +207,14 @@
                 <form action="#">
                     <div class="form-group">
                         <label for="inputName">Enter my Wallet ID:</label>
-                        <input type="text" class="form-control" id="inputName" aria-describedby="emailHelp"
+                        <input type="text" class="form-control" id="checkMyInput" aria-describedby="emailHelp"
                                placeholder="Contains 40 symbols, starting with 0x">
                     </div>
-                    <button type="submit" class="btn btn-primary">Check Tickets</button>
+                    <button id="checkMyBtn" type="submit" class="btn btn-primary">Check Tickets</button>
                 </form>
                 <h2 class="mt-5">My Active Lotteries</h2>
-                <div class="lottery-boxes">
-                    <div class="box lottery-box" data-toggle="modal" data-target="#lotteryModal">
-                        <div class="row">
-                            <div class="col-md-8 d-flex align-items-center">
-                                <div class="lottery-logo">
-                                    <img src="" th:src="@{/images/bitmap.png}" alt="logo">
-                                </div>
-                                <div class="lottery-descr">
-                                    <div class="lottery-heading">
-                                        <div class="lottery-name">CharityLife Breast Cancer Treatment</div>
-                                    </div>
-                                    <ul class="icon-list">
-                                        <li>
-                                            <i class="icon-list-icon fas fa-ticket-alt text-warning"></i>
-                                            <span>0,0325</span>
-                                        </li>
-                                        <li>
-                                            <i class="icon-list-icon fab fa-ethereum"></i>
-                                            <span>0,0325</span>
-                                        </li>
-                                        <li>
-                                            <i class="icon-list-icon fab fa-ethereum text-primary"></i>
-                                            <span>0,0325</span>
-                                        </li>
-                                        <li>
-                                            <i class="icon-list-icon far fa-check-double"></i>
-                                            <span>0,0325</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-4 text-right">
-                                <div class="time-label">Time Remaining</div>
-                                <div class="time-value">42s</div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="lottery-boxes" id="myLotteriesDiv">
+                  <!--Template is inserted by click-->
                 </div>
                 <h2>Lotteries I Won</h2>
                 <div class="lottery-boxes">
@@ -333,9 +301,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mb-4">In cancer care, doctors specializing in different areas of cancer treatment—such as
-                        surgery, radiation oncology, and medical oncology—work together to create a patient’s overall
-                        treatment plan that combines different types of treatments.</p>
+                    <p class="mb-4" id="finishedLotteryDescriptionP"></p>
                     <div class="lottery-details-list row">
                         <div class="col-md-3 text-center">
                             <div class="lottery-details-label">
@@ -412,9 +378,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mb-4">In cancer care, doctors specializing in different areas of cancer treatment—such as
-                        surgery, radiation oncology, and medical oncology—work together to create a patient’s overall
-                        treatment plan that combines different types of treatments.</p>
+                    <p class="mb-4" id="activeLotteryDescriptionP"></p>
                     <div class="lottery-details-list row mb-5">
                         <div class="col-md-3 text-center">
                             <div class="lottery-details-label">
@@ -469,7 +433,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="qty">Qty of Tickets to buy</label>
-                                        <input class="qty form-control" type="number" min="1" data-price="0.325" value="1" id="qty">
+                                        <input class="qty form-control" type="number" min="1" data-price="0.325"
+                                               value="1" id="qty">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -510,6 +475,7 @@
     var finishedDonationDiv = $('div#finishedDonationDiv');
     var finishedTicketCountDiv = $('div#finishedTicketCountDiv');
     var finishedFundPictureImg = $('img#finishedFundPictureImg');
+    var finishedLotteryDescriptionP = $('p#finishedLotteryDescriptionP');
 
     var activeLotteryNameDiv = $('div#activeLotteryNameDiv');
     var activeLotteryRemainingDiv = $('div#activeLotteryRemainingDiv');
@@ -518,6 +484,11 @@
     var activeDonationDiv = $('div#activeDonationDiv');
     var activeTicketCountDiv = $('div#activeTicketCountDiv');
     var activeFundPictureImg = $('img#activeFundPictureImg');
+    var activeLotteryDescriptionP = $('p#activeLotteryDescriptionP');
+
+    var checkMyLotteriesBtn = $('#checkMyBtn');
+    var checkMyInput = $('#checkMyInput');
+    var myLotteriesDiv = $('#myLotteriesDiv');
 
     $(function () {
         console.log("valera");
@@ -535,6 +506,7 @@
                 finishedPrizePoolDiv.text(data.prizePool + " ETH");
                 finishedDonationDiv.text(data.donation + " ETH");
                 finishedTicketCountDiv.text(data.ticketCount);
+                finishedLotteryDescriptionP.text(data.description);
                 finishedFundPictureImg.attr("src", "data:image/png;base64," + data.fundPicture);
             })
         });
@@ -550,9 +522,23 @@
                 activePrizePoolDiv.text(data.prizePool + " ETH");
                 activeDonationDiv.text(data.donation + " ETH");
                 activeTicketCountDiv.text(data.ticketCount);
+                activeLotteryDescriptionP.text(data.description);
                 activeFundPictureImg.attr("src", "data:image/png;base64," + data.fundPicture);
             })
         });
+
+        checkMyLotteriesBtn.on("click", function () {
+            console.log("click check");
+            var address = checkMyInput.val();
+            var lotteryBoxTemplate = $("#lotteryBoxTemplate").html();
+            getWanLotteries(address).done(function (data) {
+                $.each(data, function (i, lottery) {
+                    console.log(lottery);
+                    var lotteryBoxHtml = Mustache.render(lotteryBoxTemplate, lottery);
+                    myLotteriesDiv.append(lotteryBoxHtml);
+                });
+            })
+        })
     });
 
     function getLotteryData(uri) {
@@ -563,5 +549,51 @@
         });
     }
 
+    function getWanLotteries(address) {
+        return $.ajax({
+            url: '/lotteries/getAllByUserWallet?address=' + address,
+            type: 'GET',
+            dataType: 'json'
+        });
+    }
+
+</script>
+<script id="lotteryBoxTemplate" type="text/html">
+    <div class="box lottery-box" data-toggle="modal" data-target="#lotteryModal">
+        <div class="row">
+            <div class="col-md-8 d-flex align-items-center">
+                <div class="lottery-logo">
+                    <img src="data:image/png;base64, {{fundPicture}}" alt="logo">
+                </div>
+                <div class="lottery-descr">
+                    <div class="lottery-heading">
+                        <div class="lottery-name">{{name}}</div>
+                    </div>
+                    <ul class="icon-list">
+                        <li>
+                            <i class="icon-list-icon fas fa-ticket-alt text-warning"></i>
+                            <span>{{ticketPrice}}</span>
+                        </li>
+                        <li>
+                            <i class="icon-list-icon fab fa-ethereum"></i>
+                            <span>{{prizePool}}</span>
+                        </li>
+                        <li>
+                            <i class="icon-list-icon fab fa-ethereum text-primary"></i>
+                            <span>{{donation}}</span>
+                        </li>
+                        <li>
+                            <i class="icon-list-icon far fa-check-double"></i>
+                            <span>{{ticketCount}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 text-right">
+                <div class="time-label">Time Remaining</div>
+                <div class="time-value">{{timeRemaining}}</div>
+            </div>
+        </div>
+    </div>
 </script>
 </html>

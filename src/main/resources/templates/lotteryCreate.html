@@ -27,16 +27,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="fund">Fund Name:</label>
-                    <input id="fund" class="form-control" style="max-width: 480px"/>
-                </div>
-
-                <div class="form-group">
-                    <label for="fundDescr">Fund Description:</label>
-                    <input id="fundDescr" class="form-control" style="max-width: 480px"/>
-                </div>
-
-                <div class="form-group">
                     <label for="lotteryPicture">Lottery Picture</label>
                     <input id="lotteryPicture" class="form-control-file addImageInput" type="file" name="images[]"/>
                 </div>
@@ -104,8 +94,6 @@
         var data = new FormData();
         data.append("name", $('#lotteryName').val());
         data.append("description", $('#lotteryDescription').val());
-        data.append("fundName", $('#fund').val());
-        data.append("fundDescription", $('#fundDescr').val());
         data.append("duration", $('#timeBeforeRedemption').val());
         data.append("ticketPrice", $('#ticketPrice').val());
         data.append("ticketCount", $('#ticketCount').val());

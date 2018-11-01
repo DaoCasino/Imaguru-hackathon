@@ -58,12 +58,6 @@
             <column name="status" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="fund_name" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="fund_description" type="varchar">
-                <constraints nullable="false"/>
-            </column>
             <column name="fund_address" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>

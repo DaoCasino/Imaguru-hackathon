@@ -16,8 +16,7 @@ public class LotteryResponse {
     private Long id;
     private String name;
     private String contractAddress;
-    private String fundName;
-    private String fundDescription;
+    private String description;
     private LotteryStatus status;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;

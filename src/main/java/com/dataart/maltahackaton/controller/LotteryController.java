@@ -17,6 +17,7 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -64,8 +65,8 @@ public class LotteryController {
 
     @GetMapping("getAll")
     public String getAll(Model model) {
-        model.addAttribute("activeLoteries", lotteryService.findAllActive());
-        model.addAttribute("inactiveLoteries", lotteryService.findAllInactive());
+        model.addAttribute("activeLotteries", lotteryService.findAllActive());
+        model.addAttribute("inactiveLotteries", lotteryService.findAllInactive());
         return "lotteries";
     }
 
@@ -79,6 +80,12 @@ public class LotteryController {
     @ResponseBody
     public LotteryResponse getRestLotteryById(@PathVariable Long id) {
         return lotteryService.getLotteryById(id);
+    }
+
+    @GetMapping("getAllByUserWallet")
+    @ResponseBody
+    public List<LotteryResponse> findAllByUserWallet(@RequestParam("address") String address) {
+        return lotteryService.findByUserWallet(address);
     }
 
 }

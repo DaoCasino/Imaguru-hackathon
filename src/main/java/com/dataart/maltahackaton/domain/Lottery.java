@@ -27,10 +27,6 @@ public class Lottery {
 
     private String contractAddress;
 
-    private String fundName;
-
-    private String fundDescription;
-
     private String fundAddress;
 
     @Enumerated(EnumType.STRING)
