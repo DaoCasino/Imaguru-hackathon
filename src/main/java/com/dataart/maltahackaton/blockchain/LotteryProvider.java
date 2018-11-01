@@ -42,11 +42,11 @@ public class LotteryProvider {
         return BlockchainCharity.load(contractAddress, web3j, getTransactionManager(privateKey, web3j), config.getGasPrice(), config.getGasLimit());
     }
 
-    public String deploy(String privateKey, String charityAddress, BigInteger durationInMinutes, BigInteger feePercent,
-                         BigInteger maxFee, BigInteger priceForTheTicket, BigInteger winnerPercent, BigInteger charityPercent) throws Exception {
-        return BlockchainCharity.deploy(web3j, BlockchainUtils.buildCredentials(privateKey),
+    public String deploy(String charityAddress, BigInteger durationInMinutes, BigInteger feePercent,
+                         BigInteger maxFee, BigInteger priceForTheTicket, BigInteger winnerPercent) throws Exception {
+        return BlockchainCharity.deploy(web3j, BlockchainUtils.buildCredentials(config.getOwnerWalletPrivateKey()),
                 config.getGasPrice(), config.getGasLimit(), charityAddress,
-                durationInMinutes, feePercent, maxFee, priceForTheTicket, winnerPercent, charityPercent).send().getContractAddress();
+                durationInMinutes, feePercent, maxFee, priceForTheTicket, winnerPercent).send().getContractAddress();
     }
 
     private TransactionManager getTransactionManager(String privateKey, Web3j web3j) {
