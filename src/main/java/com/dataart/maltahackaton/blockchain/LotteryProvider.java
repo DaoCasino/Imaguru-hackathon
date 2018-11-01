@@ -1,6 +1,7 @@
 package com.dataart.maltahackaton.blockchain;
 
 import com.dataart.maltahackaton.utils.BlockchainUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.web3j.protocol.Web3j;
 import org.web3j.tx.FastRawTransactionManager;
@@ -11,6 +12,7 @@ import org.web3j.tx.response.TransactionReceiptProcessor;
 
 import java.math.BigInteger;
 
+@Slf4j
 @Service
 public class LotteryProvider {
 
@@ -44,9 +46,12 @@ public class LotteryProvider {
 
     public String deploy(String charityAddress, BigInteger durationInMinutes, BigInteger feePercent,
                          BigInteger maxFee, BigInteger priceForTheTicket, BigInteger winnerPercent) throws Exception {
-        return BlockchainCharity.deploy(web3j, BlockchainUtils.buildCredentials(config.getOwnerWalletPrivateKey()),
+        log.info("Deploying lottery smart contract....");
+        String lotteryContractAddress = BlockchainCharity.deploy(web3j, BlockchainUtils.buildCredentials(config.getOwnerWalletPrivateKey()),
                 config.getGasPrice(), config.getGasLimit(), charityAddress,
                 durationInMinutes, feePercent, maxFee, priceForTheTicket, winnerPercent).send().getContractAddress();
+        log.info("Lottery contract successfully deployed: {}", lotteryContractAddress);
+        return lotteryContractAddress;
     }
 
     private TransactionManager getTransactionManager(String privateKey, Web3j web3j) {
