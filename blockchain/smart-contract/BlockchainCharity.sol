@@ -24,7 +24,7 @@ contract CharityLottery is owned, usingOraclize {
     mapping(bytes32 => bool) validOraclizeIds;
 
     address public owner;
-    address public beneficiary;
+    address public charityFund;
 
     bool lotteryClosed = false;
     uint public deadline;
@@ -65,14 +65,14 @@ contract CharityLottery is owned, usingOraclize {
     }
 
     function CharityLottery(
-        address beneficiaryAddress,
+        address charityAddress,
         uint durationInMinutes,
         uint feePercent,
         uint maxFee,
         uint priceForTheTicket
     ) public {
         owner = msg.sender;
-        beneficiary = beneficiaryAddress;
+        charityFund = charityAddress;
         deadline = now + durationInMinutes * 1 minutes;
         maintenanceFeePercent = feePercent;
         maxMaintenanceFee = maxFee;
@@ -137,7 +137,7 @@ contract CharityLottery is owned, usingOraclize {
 
         uint donationAmount = balanceAmount - feeAmount;
 
-        beneficiary.send(donationAmount);
+        charityFund.send(donationAmount);
 
         // TODO: emit events
         lotteryClosed = true;
