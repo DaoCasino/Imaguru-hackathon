@@ -21,8 +21,6 @@ spring:
 
 # Ethereum
 ethereum:
-  initial:
-    ether: 1000000000000000
   geth:
     connPool:
       maxConnTotal: 100
@@ -39,4 +37,3 @@ ethereum:
   receiptProcessor:
     sleepDurationMillis: 250
     attempts: 120
-  batch-size: 300

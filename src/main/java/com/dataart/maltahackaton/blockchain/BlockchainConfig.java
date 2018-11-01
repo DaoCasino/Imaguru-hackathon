@@ -46,12 +46,6 @@ public class BlockchainConfig {
     @Value("${ethereum.owner.wallet.privateKey}")
     private String ownerWalletPrivateKey;
 
-    @Value("${ethereum.cryptocoin.gas-price}")
-    private BigInteger gasPrice;
-
-    @Value("${ethereum.cryptocoin.gas-limit}")
-    private BigInteger gasLimit;
-
     @Value("${ethereum.receiptProcessor.sleepDurationMillis}")
     private Integer sleepDurationMillis;
 

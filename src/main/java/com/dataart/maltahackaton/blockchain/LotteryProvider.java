@@ -28,22 +28,18 @@ public class LotteryProvider {
     }
 
     public BlockchainCharity loadFromOwner(String contractAddress) {
-        return this.load(contractAddress, config.getOwnerWalletPrivateKey(), config.getGasPrice(), config.getGasLimit());
+        return this.load(contractAddress, config.getOwnerWalletPrivateKey());
     }
 
     public BlockchainCharity loadFromOwner(String contractAddress, BigInteger gasPrice, BigInteger gasLimit) {
-        return this.load(contractAddress, config.getOwnerWalletPrivateKey(), gasPrice, gasLimit);
-    }
-
-    public BlockchainCharity loadFrom(String contractAddress, String privateKey) {
-        return this.load(contractAddress, privateKey, config.getGasPrice(), config.getGasLimit());
+        return this.load(contractAddress, config.getOwnerWalletPrivateKey());
     }
 
     public BlockchainCharity loadFrom(String contractAddress, String privateKey, BigInteger gasPrice, BigInteger gasLimit) {
-        return this.load(contractAddress, privateKey, gasPrice, gasLimit);
+        return this.load(contractAddress, privateKey);
     }
 
-    private BlockchainCharity load(String contractAddress, String privateKey, BigInteger gasPrice, BigInteger gasLimit) {
+    private BlockchainCharity load(String contractAddress, String privateKey) {
         return BlockchainCharity.load(contractAddress, web3j, getTransactionManager(privateKey, web3j), new DefaultGasProvider());
     }
 
