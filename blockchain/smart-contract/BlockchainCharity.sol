@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-import "oraclizeAPI.sol";
+import "./oraclizeAPI.sol";
 
 contract owned {
     address public owner;
