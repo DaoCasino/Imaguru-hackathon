@@ -6,6 +6,7 @@ import org.web3j.protocol.Web3j;
 import org.web3j.tx.FastRawTransactionManager;
 import org.web3j.tx.ReadonlyTransactionManager;
 import org.web3j.tx.TransactionManager;
+import org.web3j.tx.gas.DefaultGasProvider;
 import org.web3j.tx.response.PollingTransactionReceiptProcessor;
 import org.web3j.tx.response.TransactionReceiptProcessor;
 
@@ -23,8 +24,7 @@ public class LotteryProvider {
     }
 
     public BlockchainCharity loadReadOnly(String contractAddress) {
-        return BlockchainCharity.load(contractAddress, web3j,
-                getReadOnlyTransactionManager(web3j), config.getGasPrice(), config.getGasLimit());
+        return BlockchainCharity.load(contractAddress, web3j, getReadOnlyTransactionManager(web3j), new DefaultGasProvider());
     }
 
     public BlockchainCharity loadFromOwner(String contractAddress) {
@@ -44,12 +44,13 @@ public class LotteryProvider {
     }
 
     private BlockchainCharity load(String contractAddress, String privateKey, BigInteger gasPrice, BigInteger gasLimit) {
-        return BlockchainCharity.load(contractAddress, web3j, getTransactionManager(privateKey, web3j), gasPrice, gasLimit);
+        return BlockchainCharity.load(contractAddress, web3j, getTransactionManager(privateKey, web3j), new DefaultGasProvider());
     }
 
-    public String deploy(String lotteryName, String lotteryDescription, String fundName, String fundDescription) {
-        // TODO: deploy functionality
-        return "0x............";
+    public String deploy(String privateKey, String charityAddress, BigInteger durationInMinutes, BigInteger feePercent,
+                         BigInteger maxFee, BigInteger priceForTheTicket, BigInteger winnerPercent, BigInteger charityPercent) throws Exception {
+        return BlockchainCharity.deploy(web3j, BlockchainUtils.buildCredentials(privateKey), new DefaultGasProvider(), charityAddress,
+                durationInMinutes, feePercent, maxFee, priceForTheTicket, winnerPercent, charityPercent).send().getContractAddress();
     }
 
     private TransactionManager getTransactionManager(String privateKey, Web3j web3j) {
