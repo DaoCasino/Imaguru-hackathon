@@ -1,7 +1,5 @@
 pragma solidity ^0.4.24;
 
-import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
-
 contract owned {
     address public owner;
 
@@ -15,13 +13,7 @@ contract owned {
     }
 }
 
-contract CharityLottery is owned, usingOraclize {
-
-    uint oraclizeRandomBytesAmount = 7;
-    uint oraclizeDelay = 0;
-    uint callbackGas = 200000; // TODO: check gas consumption
-
-    mapping(bytes32 => bool) validOraclizeIds;
+contract CharityLottery is owned {
 
     address public owner;
     address public charityFund;
@@ -64,6 +56,11 @@ contract CharityLottery is owned, usingOraclize {
 
     modifier isReachedDeadline() {
         require(now >= deadline);
+        _;
+    }
+
+    modifier winnerNotChosen() {
+        require(winnerTicketNumber == - 1);
         _;
     }
 
@@ -110,34 +107,9 @@ contract CharityLottery is owned, usingOraclize {
         }
     }
 
-    function requestTicketWinnerNumber() public isReachedDeadline nonFinishedLottery {
-        oraclize_setProof(proofType_Ledger);
+    function finishLottery() public isReachedDeadline nonFinishedLottery {
+        chooseWinner();
 
-        bytes32 queryId = oraclize_newRandomDSQuery(oraclizeDelay, oraclizeRandomBytesAmount, callbackGas);
-
-        // Needed to check in callback function
-        validOraclizeIds[queryId] = true;
-    }
-
-    /*
-        Oraclize proof callback.
-        Called when random number is generated
-    */
-    function __callback(bytes32 _queryId, string _result, bytes _proof)
-    {
-        if (msg.sender != oraclize_cbAddress()
-        || !validOraclizeIds[_queryId]
-        || oraclize_randomDS_proofVerify__returnCode(_queryId, _result, _proof) == 0) {
-            revert();
-        } else {
-            int maxRange = currentTicketNumber;
-            winnerTicketNumber = int(sha3(_result)) % maxRange;
-
-            finishLottery();
-        }
-    }
-
-    function finishLottery() internal nonFinishedLottery isReachedDeadline {
         uint balance = address(this).balance;
         uint feeAmount = balance * maintenanceFeeRate / 100;
 
@@ -151,6 +123,10 @@ contract CharityLottery is owned, usingOraclize {
         calculateAndSendCharityAmount(charityDonationAmount);
 
         lotteryClosed = true;
+    }
+
+    function chooseWinner() internal winnerNotChosen {
+        winnerTicketNumber = uint256(keccak256(block.difficulty, block.timestamp)) % currentTicketNumber;
     }
 
     function calculateAndSendWinnerAmount(uint giveAwayAmount) internal finishedLottery returns (uint charityDonationAmount) {
