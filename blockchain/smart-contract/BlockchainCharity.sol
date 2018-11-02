@@ -15,7 +15,6 @@ contract owned {
 
 contract CharityLottery is owned {
 
-    address public owner;
     address public charityFund;
 
     bool public lotteryClosed = false;
@@ -81,7 +80,7 @@ contract CharityLottery is owned {
 
     function() payable public {
         require(!lotteryClosed);
-        require(now <= deadline);
+        require(now < deadline);
 
         uint amount = msg.value;
         address holder = msg.sender;
@@ -101,7 +100,7 @@ contract CharityLottery is owned {
         }
     }
 
-    function finishLottery() public {
+    function finishLottery() public nonFinishedLottery isReachedDeadline {
         chooseWinner();
 
         uint balance = address(this).balance;
