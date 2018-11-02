@@ -1,12 +1,15 @@
 ## Project name 
+Love The chain
 
 ### Target
 
- - Nomination/Task Name
+ - People who want to invest in real estate crowdfunding
 
 ### Description
  
-// Description
+// A liquid platform for “Participating Association Agreements”
+in real estate context 
+
 
 ### Quick Start Guide
 
@@ -14,19 +17,22 @@
 
 #### Requirements
 
->for example:
- - Node 10.0
+
+ - Node 8.12
  - Truffle 4.0
 
 
  #### Start
 
  ```
- // for example
-npm i
-npm start
-truffle test
- ```
+ // 
+ "Smart contract virtualization" and "firebase virtualization"
+ npm start 
+ 
+ "Web Application"
+ npm run dev
+ 
+
 
  #### Optional
 
@@ -46,4 +52,4 @@ truffle test
 
 ### Details for Reward
 
- - 0xSUPERTEAMWALLETADDRESS (ethereum-address to deposit prizes)
+ - 0xFAC3Eb60b03b43B02E448fef017F99ee2ebB643b (ethereum-address to deposit prizes)
