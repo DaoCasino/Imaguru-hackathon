@@ -25,7 +25,7 @@ spring:
 
 lottery-finish:
   job:
-    cron: "0 * * * * *" # Every minute
+    cron: "0/10 * * * * *" # Every 10 sec
 
 # Ethereum
 ethereum:
