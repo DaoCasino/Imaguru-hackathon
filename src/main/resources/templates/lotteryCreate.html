@@ -91,12 +91,6 @@
             charityRateInput.val(calculatedRate);
         });
 
-        // $('#spinnerDiv').hide().ajaxStart(function () {
-        //     $(this).show();
-        // }).ajaxStop(function () {
-        //     $(this).hide();
-        // });
-
         $(document).ajaxStart(function(){
             $("#spinnerDiv").css("display", "block");
         });
