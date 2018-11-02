@@ -1,11 +1,8 @@
-$(function () {
-    $('#spinnerDiv')
-        .hide()
-        .ajaxStart(function () {
-            $(this).show();
-        })
-        .ajaxStop(function () {
-                $(this).hide();
-            }
-        )
-});
+// $(function () {
+//     $('#spinnerDiv').hide().ajaxStart(function () {
+//         $(this).show();
+//     })
+//         .ajaxStop(function () {
+//             $(this).hide();
+//         });
+// });

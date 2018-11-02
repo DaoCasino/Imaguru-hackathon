@@ -7567,13 +7567,15 @@ label {
 }
 
 #spinnerDiv {
-    position:fixed;
-    top: 50%;
-    left: 50%;
-    width:30em;
-    height:18em;
-    margin-top: -9em;
-    margin-left: -15em;
+    margin: auto;
+    top: 0px;
+    padding: 400px 0;
+    width: 100%;
+    height: 1000px;
+    position: absolute;
+    text-align: center;
+    background-color: rgba(255,255,255,0.7);
+    z-index: 999;
 }
 
 .hero-games .heading i {

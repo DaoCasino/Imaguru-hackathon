@@ -90,6 +90,20 @@
             var calculatedRate = 100 - prizeRateInput.val();
             charityRateInput.val(calculatedRate);
         });
+
+        // $('#spinnerDiv').hide().ajaxStart(function () {
+        //     $(this).show();
+        // }).ajaxStop(function () {
+        //     $(this).hide();
+        // });
+
+        $(document).ajaxStart(function(){
+            $("#spinnerDiv").css("display", "block");
+        });
+
+        $(document).ajaxComplete(function(){
+            $("#spinnerDiv").css("display", "none");
+        });
     });
 
     function uploadImage() {

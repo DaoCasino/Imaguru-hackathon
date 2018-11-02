@@ -112,6 +112,10 @@ public class LotteryService {
         try {
             ticketsCount = blockchainCharity.currentTicketNumber().send().longValue() + 1L;
             donation = lottery.getTicketPrice().multiply(BigDecimal.valueOf(ticketsCount));
+            if (lottery.getCompleted()) {
+                String winnerAddress = blockchainCharity.allTickets(blockchainCharity.winnerTicketNumber().send()).send().getValue2();
+                response.setWinnerAddress(winnerAddress);
+            }
         } catch (Exception e) {
             log.error("Error while getting currentTicketNumber: {}", e);
         }
