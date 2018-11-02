@@ -40,9 +40,9 @@ in real estate context
 
  #### Live view
 
- //link to an actual example, if available
- // for example: github page / ropsten.etherscan.io/address/0xSuperContract
-
+ //link to an actual example, if availablehttps://rinkeby.etherscan.io/address/0x24facf1530ea145fe1ccd50a73c41e66097fded9
+ 
+ 
 
 ## Team
 
