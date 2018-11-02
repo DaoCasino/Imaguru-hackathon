@@ -447,7 +447,7 @@ label {
   background: #fff;
 }
 
-// games 
+// games
 .hero-games {
   background: url(../images/hero-2.jpg) no-repeat 50% / cover;
   text-align: center;
@@ -540,4 +540,42 @@ label {
     width: 267px;
     font-weight: 700;
   }
+}
+
+// login
+#login {
+  display: block;
+
+  .modal-content {
+    box-shadow: 0 12px 50px 0 rgba(0, 0, 0, 0.12);
+    background-color: #fdfdfd;
+    border: none;
+  }
+
+  .login {
+    padding: 40px;
+    text-align: center;
+  }
+
+  .login-form {
+    text-align: left;
+  }
+
+  h3, p {
+    margin-bottom: 1.5rem;
+  }
+}
+
+// admin
+.panel-name {
+  text-transform: uppercase;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.add-link {
+  text-transform: uppercase;
+  font-size: 24px;
+  font-weight: 700;
 }

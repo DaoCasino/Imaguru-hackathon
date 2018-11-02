@@ -7566,18 +7566,6 @@ label {
     padding: 65px 0;
 }
 
-#spinnerDiv {
-    margin: auto;
-    top: 0px;
-    padding: 400px 0;
-    width: 100%;
-    height: 1000px;
-    position: absolute;
-    text-align: center;
-    background-color: rgba(255,255,255,0.7);
-    z-index: 999;
-}
-
 .hero-games .heading i {
     font-size: 80px;
 }
@@ -7667,6 +7655,55 @@ label {
     text-transform: uppercase;
     font-size: 24px;
     width: 267px;
+    font-weight: 700;
+}
+
+#spinnerDiv {
+    margin: auto;
+    top: 0px;
+    padding: 400px 0;
+    width: 100%;
+    height: 1000px;
+    position: absolute;
+    text-align: center;
+    background-color: rgba(255,255,255,0.7);
+    z-index: 999;
+}
+
+#login {
+    display: block;
+}
+
+#login .modal-content {
+    box-shadow: 0 12px 50px 0 rgba(0, 0, 0, .12);
+    background-color: #fdfdfd;
+    border: none;
+}
+
+#login .login {
+    padding: 40px;
+    text-align: center;
+}
+
+#login .login-form {
+    text-align: left;
+}
+
+#login h3,
+#login p {
+    margin-bottom: 1.5rem;
+}
+
+.panel-name {
+    text-transform: uppercase;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.add-link {
+    text-transform: uppercase;
+    font-size: 24px;
     font-weight: 700;
 }
 
