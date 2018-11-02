@@ -47,18 +47,15 @@ contract CharityLottery is owned {
     }
 
     modifier nonFinishedLottery() {
-        require(lotteryClosed == false);
-        _;
+        if (lotteryClosed == false) _;
     }
 
-    modifier isReachedDeadline() {
-        require(now >= deadline);
-        _;
+    modifier afterDeadline() {
+        if (now >= deadline) _;
     }
 
     modifier winnerNotChosen() {
-        require(winnerTicketNumber == - 1);
-        _;
+        if (winnerTicketNumber == - 1) _;
     }
 
     function CharityLottery(
@@ -100,7 +97,7 @@ contract CharityLottery is owned {
         }
     }
 
-    function finishLottery() public nonFinishedLottery isReachedDeadline {
+    function finishLottery() public nonFinishedLottery afterDeadline {
         chooseWinner();
 
         uint balance = address(this).balance;

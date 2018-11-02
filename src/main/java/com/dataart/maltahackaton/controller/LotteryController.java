@@ -40,7 +40,7 @@ public class LotteryController {
     @ResponseBody
     @GetMapping("deploy")
     public String deploy() throws Exception {
-        return lotteryProvider.deploy("0xfed7907edc850959e570092ac0c45726f48978dd", new BigInteger("100"),
+        return lotteryProvider.deploy("0xfed7907edc850959e570092ac0c45726f48978dd", new BigInteger("3"),
                 BigInteger.TEN, new BigInteger("100000000000000000"), new BigInteger("1000000000000000"), BigInteger.TEN);
     }
 

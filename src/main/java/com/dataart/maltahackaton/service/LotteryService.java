@@ -29,7 +29,7 @@ import java.util.List;
 public class LotteryService {
 
     @Value("${lottery.fee.rate}")
-    private BigDecimal feeRate;
+    private Long feeRate;
     @Value("${lottery.fee.max}")
     private BigDecimal maxFee;
 
@@ -81,10 +81,10 @@ public class LotteryService {
     public LotteryResponse createLottery(LotteryCreateRequest createRequest) throws Exception {
         String contractAddress = lotteryProvider.deploy(createRequest.getFundAddress(),
                 BigInteger.valueOf(createRequest.getDuration()),
-                BlockchainUtils.convertToBlockchainUnits(feeRate),
+                BigInteger.valueOf(feeRate),
                 BlockchainUtils.convertToBlockchainUnits(maxFee),
                 BlockchainUtils.convertToBlockchainUnits(createRequest.getTicketPrice()),
-                BlockchainUtils.convertToBlockchainUnits(createRequest.getPrizePoolRate()));
+                BigInteger.valueOf(createRequest.getPrizePoolRate()));
 
         Lottery lottery = modelMapper.map(createRequest, Lottery.class);
         lottery.setStatus(LotteryStatus.ACTIVE);
@@ -126,10 +126,10 @@ public class LotteryService {
         return response;
     }
 
-    private BigDecimal calculateFee(BigDecimal amount, BigDecimal feeRate, BigDecimal maxFee) {
+    private BigDecimal calculateFee(BigDecimal amount, Long feeRate, BigDecimal maxFee) {
         BigDecimal fee = BigDecimal.ZERO;
-        if (feeRate.compareTo(BigDecimal.ZERO) != 0) {
-            fee = feeRate.multiply(amount).divide(new BigDecimal("100"), RoundingMode.HALF_DOWN);
+        if (feeRate != 0) {
+            fee = BigDecimal.valueOf(feeRate).multiply(amount).divide(new BigDecimal("100"), RoundingMode.HALF_DOWN);
             if (maxFee.compareTo(BigDecimal.ZERO) != 0 && fee.compareTo(maxFee) > 0) {
                 return maxFee;
             }

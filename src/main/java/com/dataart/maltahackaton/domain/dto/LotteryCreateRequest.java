@@ -13,7 +13,7 @@ public class LotteryCreateRequest {
     private String description;
     private Long duration;
     private BigDecimal ticketPrice;
-    private BigDecimal prizePoolRate;
+    private Long prizePoolRate;
     private String fundAddress;
     private List<MultipartFile> images;
 
