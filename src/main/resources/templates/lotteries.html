@@ -31,7 +31,8 @@
             <div class="col-md-6">
                 <img src="" class="hero-logo" th:src="@{/images/logo2.svg}" alt="Logo">
                 <p>Blockchain lottery service for charity funds around the world</p>
-                <button data-toggle="modal" data-target="#aboutModal" class="btn btn-warning">Learn More</button>
+                <button data-toggle="modal" data-target="#aboutModal" class="btn btn-warning">Join Global Community
+                </button>
             </div>
         </div>
     </div>
@@ -214,7 +215,7 @@
                 </form>
                 <h2 class="mt-5">My Active Lotteries</h2>
                 <div class="lottery-boxes" id="myLotteriesDiv">
-                  <!--Template is inserted by click-->
+                    <!--Template is inserted by click-->
                 </div>
             </div>
         </div>
@@ -298,12 +299,12 @@
                     <div class="row">
                         <div class="col-md-6 text-center">
                             <b>Winner Wallet ID:</b>
-                            <p>0x4a91d42d33e1f6e24b286a52fd6a00f7aac15ee8</p>
+                            <p id="winnerAddressP"></p>
                             <a href="#"><i class="fal fa-link mr-2"></i> <span>View Transaction</span></a>
                         </div>
                         <div class="col-md-6 text-center">
                             <b>Donation Sent to:</b>
-                            <p>0x4a91d42d33e1f6e24b286a52fd6a00f7aac15ee8</p>
+                            <p id="fundAddressP"></p>
                             <a href="#"><i class="fal fa-link mr-2"></i> <span>View Transaction</span></a>
                         </div>
                     </div>
@@ -378,10 +379,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="contractAddressIdInput">Smart Contract Address</label>
-                                <input type="text" class="form-control" id="contractAddressIdInput" aria-describedby="emailHelp"
+                                <input type="text" class="form-control" id="contractAddressIdInput"
+                                       aria-describedby="emailHelp"
                                        placeholder="Contains 40 symbols, starting with 0x">
                             </div>
-                            <button type="submit" class="btn btn-primary btn-copy" data-clipboard-target="#inputID">Copy
+                            <button type="submit" id="copyToClipboardBtn" class="btn btn-primary btn-copy"
+                                    data-clipboard-target="#inputID">Copy
                                 Address to Clipboard
                             </button>
                         </div>
@@ -451,13 +454,15 @@
     var activeFundPictureImg = $('img#activeFundPictureImg');
     var activeLotteryDescriptionP = $('p#activeLotteryDescriptionP');
     var contractAddressIdInput = $('#contractAddressIdInput');
+    var copyToClipboardBtn = $('#copyToClipboardBtn');
+    var winnerAddressP = $('p#winnerAddressP');
+    var fundAddressP = $('p#fundAddressP');
 
     var checkMyLotteriesBtn = $('#checkMyBtn');
     var checkMyInput = $('#checkMyInput');
     var myLotteriesDiv = $('#myLotteriesDiv');
 
     $(function () {
-        console.log("valera");
 
         $('div.finished-box').on("click", function () {
             var inputElement = $(this).find("input");
@@ -491,6 +496,8 @@
                 activeLotteryDescriptionP.text(data.description);
                 activeFundPictureImg.attr("src", "data:image/png;base64," + data.fundPicture);
                 contractAddressIdInput.val(data.contractAddress);
+                winnerAddressP.text(data.winnerAddress);
+                fundAddressP.text(data.fundAddress);
             })
         });
 
@@ -503,7 +510,8 @@
                     myLotteriesDiv.append(lotteryBoxHtml);
                 });
             })
-        })
+        });
+
     });
 
     function getLotteryData(uri) {

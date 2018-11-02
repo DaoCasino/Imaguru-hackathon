@@ -30,5 +30,7 @@ public class LotteryResponse {
     private String timeRemaining;
     private String lotteryPicture;
     private String fundPicture;
+    private String fundAddress;
+    private String winnerAddress;
 
 }
