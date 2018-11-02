@@ -7566,6 +7566,16 @@ label {
     padding: 65px 0;
 }
 
+#spinnerDiv {
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:18em;
+    margin-top: -9em;
+    margin-left: -15em;
+}
+
 .hero-games .heading i {
     font-size: 80px;
 }
