@@ -404,7 +404,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="amount">ETH amount to send</label>
-                                        <input type="text" readonly class="form-control" value="0.325 ETH" id="amount">
+                                        <input type="text" readonly class="form-control" id="amount">
                                     </div>
                                 </div>
                             </div>
@@ -450,7 +450,6 @@
     var activeFundPictureImg = $('img#activeFundPictureImg');
     var activeLotteryDescriptionP = $('p#activeLotteryDescriptionP');
     var contractAddressIdInput = $('#contractAddressIdInput');
-    var copyToClipboardBtn = $('#copyToClipboardBtn');
     var winnerAddressP = $('p#winnerAddressP');
     var fundAddressP = $('p#fundAddressP');
 
@@ -494,6 +493,8 @@
                 contractAddressIdInput.val(data.contractAddress);
                 winnerAddressP.text(data.winnerAddress);
                 fundAddressP.text(data.fundAddress);
+                $('#qty').attr('data-price', data.ticketPrice);
+                $('#amount').val(data.ticketPrice + ' ETH');
             })
         });
 
