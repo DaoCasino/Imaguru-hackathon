@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <th:block th:include="fragments/include :: head"></th:block>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBH</title>
+    <link th:href="@{'https://fonts.googleapis.com/css?family=Lato:400,700,900'}" rel="stylesheet">
+    <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen"/>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" media="screen"/>
+</head>
+<body>
+
+<header id="header" class="container-fluid d-flex align-items-center">
+    <a href="#" class="logo">
+        <img src="../static/images/logo.svg" alt="Logo" th:src="@{/images/logo.svg}"/>
+    </a>
+    <ul class="navigation">
+        <li class="active"><a th:href="@{/lotteries/getAll}">Lotteries</a></li>
+        <li><a th:href="@{/games}">Games</a></li>
+        <li><a href="#" data-toggle="modal" data-target="#aboutModal">About Us</a></li>
+    </ul>
+    <button data-toggle="modal" data-target="#checkModal" class="btn-check">
+        Check my Lotteries
+    </button>
+</header>
+
+<div class="hero">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <img src="" class="hero-logo" th:src="@{/images/logo2.svg}" alt="Logo">
+                <p>Blockchain lottery service for charity funds around the world</p>
+                <button data-toggle="modal" data-target="#aboutModal" class="btn btn-warning">Join Global Community
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 main-column">
+            <h2>Active Lotteries</h2>
+            <div class="lottery-boxes">
+                <th:block th:each="lottery : ${activeLotteries}">
+                    <div class="box lottery-box active-box" data-toggle="modal" data-target="#lotteryModal">
+                        <div class="row">
+                            <div class="col-md-8 d-flex align-items-center">
+                                <div class="lottery-logo">
+                                    <img src="" th:src="*{'data:image/png;base64,'+ lottery.getFundPicture()}"
+                                         alt="logo"/>
+                                </div>
+                                <div class="lottery-descr">
+                                    <input type="hidden" th:value="${'/lotteries/' + lottery.id}"/>
+                                    <div class="lottery-heading">
+                                        <div th:text="${lottery.name}" class="lottery-name"></div>
+                                    </div>
+                                    <ul class="icon-list">
+                                        <li>
+                                            <i class="icon-list-icon fas fa-ticket-alt text-warning"></i>
+                                            <span th:text="${lottery.ticketPrice}"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon fab fa-ethereum"></i>
+                                            <span th:text="${lottery.prizePool}"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon fab fa-ethereum text-primary"></i>
+                                            <span th:text="${lottery.donation}"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon far fa-check-double"></i>
+                                            <span th:text="${lottery.ticketCount}"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <div class="time-label">Time Remaining</div>
+                                <div class="time-value" th:text="${lottery.timeRemaining}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+
+            <h2>Finished Lotteries</h2>
+            <div class="lottery-boxes">
+                <th:block th:each="lottery : ${inactiveLotteries}">
+                    <div class="box lottery-box bg-light finished-box" data-toggle="modal"
+                         data-target="#lotteryFinishedModal">
+                        <div class="row">
+                            <div class="col-md-8 d-flex align-items-center">
+                                <div class="lottery-logo">
+                                    <img src="" th:src="*{'data:image/png;base64,'+ lottery.getFundPicture()}"
+                                         alt="logo"/>
+                                </div>
+                                <div class="lottery-descr">
+                                    <input type="hidden" th:value="${'/lotteries/' + lottery.id}"/>
+                                    <div class="lottery-heading">
+                                        <i class="fas fa-trophy-alt"></i>
+                                        <div th:text="${lottery.name}" class="lottery-name"></div>
+                                    </div>
+                                    <ul class="icon-list">
+                                        <li>
+                                            <i class="icon-list-icon fas fa-ticket-alt text-warning"></i>
+                                            <span th:text="${lottery.ticketPrice}"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon fab fa-ethereum"></i>
+                                            <span th:text="${lottery.prizePool}"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon fab fa-ethereum text-primary"></i>
+                                            <span th:text="${lottery.donation}"></span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon far fa-check-double"></i>
+                                            <span th:text="${lottery.ticketCount}"></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-right align-self-center">
+                                <div class="finish-value text-warning" th:text="${lottery.prizePool} + ' ETH'"></div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+        <div class="col-md-4 sidebar">
+            <div class="box">
+                <h2>Charity Payouts</h2>
+                <ul class="payout-list">
+                    <th:block th:each="lottery : ${inactiveLotteries}">
+                        <li>
+                            <i class="currency text-primary fab fa-ethereum"></i>
+                            <b th:text="${lottery.payout}"></b>
+                            <span th:text="'to ' + ${lottery.name}"></span>
+                            <i class="last text-primary fal fa-link"></i>
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <div class="row no-gutters">
+                <div class="col-md-5">
+                    <div class="about-content">
+                        <img class="about-logo" src="" th:src="@{/images/logo3.png}" alt="Logo">
+                        <p>Charity lottery service for global charity funds, which helps them gather etherium for their
+                            patroned institutions.</p>
+                        <form action="#" class="contact-form">
+                            <h3>Please contact us!</h3>
+                            <div class="form-group">
+                                <label for="inputName">Name</label>
+                                <input type="text" class="form-control" id="inputName" aria-describedby="emailHelp"
+                                       placeholder="Enter name">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail">E-mail</label>
+                                <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp"
+                                       placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputMessage">Message (optional)</label>
+                                <textarea class="form-control" id="inputMessage" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-primary">Send</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-7 about-image">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-body checkModal">
+                <div class="d-flex align-items-center mb-4">
+                    <i class="fas fa-ticket-alt text-warning mr-3"></i>
+                    <h3>Check My Lottery Tickets</h3>
+                </div>
+                <p class="mb-4">Use the input form below to enter the Wallet ID you made payments from. This will allow
+                    you to quickly see the list of all the lotteries you participated in and check if you won or lost in
+                    them.</p>
+                <form action="#">
+                    <div class="form-group">
+                        <label for="inputName">Enter my Wallet ID:</label>
+                        <input type="text" class="form-control" id="checkMyInput" aria-describedby="emailHelp"
+                               placeholder="Contains 40 symbols, starting with 0x">
+                    </div>
+                    <button id="checkMyBtn" type="submit" class="btn btn-primary">Check Tickets</button>
+                </form>
+                <h2 class="mt-5">My Active Lotteries</h2>
+                <div class="lottery-boxes" id="myLotteriesDiv">
+                    <!--Template is inserted by click-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="lotteryFinishedModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="lotteryFinishedModal">
+                <div class="intro text-center">
+                    <span class="fader"></span>
+                    <i class="intro-logo far fa-trophy-alt text-warning mb-4"></i>
+                    <h3 class="mb-4">Lottery Finished!</h3>
+                    <ul class="intro-details">
+                        <li>
+                            <p>Final Prize Pool</p>
+                            <span id="finishedPoolPrizeSpan" class="text-warning"></span>
+                        </li>
+                        <li>
+                            <p>Tickets Sold</p>
+                            <span id="finishedTicketCountSpan"></span>
+                        </li>
+                        <li>
+                            <p>Final Donation</p>
+                            <span id="finishedDonationSpan" class="text-warning"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lottery-details">
+                    <div class="lottery-details-heading mb-4">
+                        <div class="row">
+                            <div class="col-md-9 d-flex align-items-center">
+                                <div class="lottery-logo">
+                                    <img id="finishedFundPictureImg" src="" alt="logo">
+                                </div>
+                                <div id="finishedLotteryNameDiv" class="lottery-name"></div>
+                            </div>
+                            <div class="col-md-3 text-right align-self-center">
+                                <div class="time-label">Time Remaining</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-4" id="finishedLotteryDescriptionP"></p>
+                    <div class="lottery-details-list row">
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="fas fa-ticket-alt mr-2"></i>
+                                <span>Ticket Price</span>
+                            </div>
+                            <div id="finishedTicketPriceDiv" class="value"></div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="fab fa-ethereum mr-2"></i>
+                                <span>Current Prize Pool</span>
+                            </div>
+                            <div id="finishedPrizePoolDiv" class="value"></div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="fab fa-ethereum mr-2"></i>
+                                <span>Current Donation</span>
+                            </div>
+                            <div id="finishedDonationDiv" class="value"></div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="far fa-check-double mr-2"></i>
+                                <span>Issued Tickets Qty</span>
+                            </div>
+                            <div id="finishedTicketCountDiv" class="value"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid transaction">
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <b>Winner Wallet Address:</b>
+                            <p id="winnerAddressP"></p>
+                            <a href="#"><i class="fal fa-link mr-2"></i> <span>View Transaction</span></a>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <b>Donation Sent to:</b>
+                            <p id="fundAddressP"></p>
+                            <a href="#"><i class="fal fa-link mr-2"></i> <span>View Transaction</span></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="lotteryModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="lotteryFinishedModal">
+                <div class="intro text-center">
+
+                </div>
+                <div class="lottery-details">
+                    <div class="lottery-details-heading mb-4">
+                        <div class="row">
+                            <div class="col-md-9 d-flex align-items-center">
+                                <div class="lottery-logo">
+                                    <img id="activeFundPictureImg" src="" alt="logo">
+                                </div>
+                                <div id="activeLotteryNameDiv" class="lottery-name"></div>
+                            </div>
+                            <div class="col-md-3 text-right align-self-center">
+                                <div class="time-label">Time Remaining</div>
+                                <div class="time-value" id="activeLotteryRemainingDiv"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-4" id="activeLotteryDescriptionP"></p>
+                    <div class="lottery-details-list row mb-5">
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="fas fa-ticket-alt mr-2 text-warning"></i>
+                                <span>Ticket Price</span>
+                            </div>
+                            <div class="value" id="activeTicketPriceDiv"></div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="fab fa-ethereum mr-2"></i>
+                                <span>Current Prize Pool</span>
+                            </div>
+                            <div class="value" id="activePrizePoolDiv"></div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="fab fa-ethereum mr-2  text-primary"></i>
+                                <span>Current Donation</span>
+                            </div>
+                            <div class="value" id="activeDonationDiv"></div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="far fa-check-double mr-2"></i>
+                                <span>Issued Tickets Qty</span>
+                            </div>
+                            <div class="value" id="activeTicketCountDiv"></div>
+                        </div>
+                    </div>
+                    <div class="row lottery-detail-forms mb-5">
+                        <div class="col-md-6">
+                            <div class="heading mb-2">
+                                <i class="fas fa-star mr-2"></i>
+                                <span>Participate in this lottery</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="contractAddressIdInput">Smart Contract Address</label>
+                                <input type="text" class="form-control" id="contractAddressIdInput"
+                                       aria-describedby="emailHelp"
+                                       placeholder="Contains 40 symbols, starting with 0x">
+                            </div>
+                            <button type="submit" id="copyToClipboardBtn" class="btn btn-primary btn-copy"
+                                    data-clipboard-target="#inputID">Copy
+                                Address to Clipboard
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="heading mb-2">
+                                <i class="fas fa-ticket-alt mr-2"></i>
+                                <span>Tickets Calculator</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="qty">Qty of Tickets to buy</label>
+                                        <input class="qty form-control" type="number" min="1" data-price="0.325"
+                                               value="1" id="qty">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="amount">ETH amount to send</label>
+                                        <input type="text" readonly class="form-control" id="amount">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-outline-primary btn-copy"
+                                    data-clipboard-target="#amount">Copy Amount to Clipboard
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lottery-details-note text-muted">
+                        <h4>How to participate?</h4>
+                        <p>Just copy the Smart Contract ID stated below and send designated ETH amount to it. Please
+                            note that you need to send <b>0,0325 ETH</b> or more, to buy not less than one ticket.
+                            Exceeding sum will be returned to your wallet. Use the calculator provided to calculate
+                            exact ETH amount for the number of tickets you want to purchase.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script th:inline="javascript">
+
+    var finishedPoolPrizeSpan = $('span#finishedPoolPrizeSpan');
+    var finishedTicketCountSpan = $('span#finishedTicketCountSpan');
+    var finishedDonationSpan = $('span#finishedDonationSpan');
+    var finishedLotteryNameDiv = $('div#finishedLotteryNameDiv');
+    var finishedTicketPriceDiv = $('div#finishedTicketPriceDiv');
+    var finishedPrizePoolDiv = $('div#finishedPrizePoolDiv');
+    var finishedDonationDiv = $('div#finishedDonationDiv');
+    var finishedTicketCountDiv = $('div#finishedTicketCountDiv');
+    var finishedFundPictureImg = $('img#finishedFundPictureImg');
+    var finishedLotteryDescriptionP = $('p#finishedLotteryDescriptionP');
+
+    var activeLotteryNameDiv = $('div#activeLotteryNameDiv');
+    var activeLotteryRemainingDiv = $('div#activeLotteryRemainingDiv');
+    var activeTicketPriceDiv = $('div#activeTicketPriceDiv');
+    var activePrizePoolDiv = $('div#activePrizePoolDiv');
+    var activeDonationDiv = $('div#activeDonationDiv');
+    var activeTicketCountDiv = $('div#activeTicketCountDiv');
+    var activeFundPictureImg = $('img#activeFundPictureImg');
+    var activeLotteryDescriptionP = $('p#activeLotteryDescriptionP');
+    var contractAddressIdInput = $('#contractAddressIdInput');
+    var winnerAddressP = $('p#winnerAddressP');
+    var fundAddressP = $('p#fundAddressP');
+
+    var checkMyLotteriesBtn = $('#checkMyBtn');
+    var checkMyInput = $('#checkMyInput');
+    var myLotteriesDiv = $('#myLotteriesDiv');
+
+    $(function () {
+
+        $('div.finished-box').on("click", function () {
+            var inputElement = $(this).find("input");
+            var requestUri = inputElement.val();
+
+            getLotteryData(requestUri).done(function (data) {
+                finishedPoolPrizeSpan.text(data.prizePool + " ETH");
+                finishedTicketCountSpan.text(data.ticketCount);
+                finishedDonationSpan.text(data.donation + " ETH");
+                finishedLotteryNameDiv.text(data.name);
+                finishedTicketPriceDiv.text(data.ticketPrice + " ETH");
+                finishedPrizePoolDiv.text(data.prizePool + " ETH");
+                finishedDonationDiv.text(data.donation + " ETH");
+                finishedTicketCountDiv.text(data.ticketCount);
+                finishedLotteryDescriptionP.text(data.description);
+                finishedFundPictureImg.attr("src", "data:image/png;base64," + data.fundPicture);
+                winnerAddressP.text(data.winnerAddress);
+                fundAddressP.text(data.fundAddress);
+            })
+        });
+
+        $('div.active-box').on("click", function () {
+            var inputElement = $(this).find("input");
+            var requestUri = inputElement.val();
+
+            getLotteryData(requestUri).done(function (data) {
+                activeLotteryNameDiv.text(data.name);
+                activeLotteryRemainingDiv.text(data.timeRemaining);
+                activeTicketPriceDiv.text(data.ticketPrice + " ETH");
+                activePrizePoolDiv.text(data.prizePool + " ETH");
+                activeDonationDiv.text(data.donation + " ETH");
+                activeTicketCountDiv.text(data.ticketCount);
+                activeLotteryDescriptionP.text(data.description);
+                activeFundPictureImg.attr("src", "data:image/png;base64," + data.fundPicture);
+                contractAddressIdInput.val(data.contractAddress);
+                $('#qty').attr('data-price', data.ticketPrice);
+                $('#amount').val(data.ticketPrice + ' ETH');
+            })
+        });
+
+        checkMyLotteriesBtn.on("click", function () {
+            var address = checkMyInput.val();
+            var lotteryBoxTemplate = $("#lotteryBoxTemplate").html();
+            getWanLotteries(address).done(function (data) {
+                $.each(data, function (i, lottery) {
+                    var lotteryBoxHtml = Mustache.render(lotteryBoxTemplate, lottery);
+                    myLotteriesDiv.append(lotteryBoxHtml);
+                });
+            })
+        });
+
+    });
+
+    function getLotteryData(uri) {
+        return $.ajax({
+            url: uri,
+            type: 'GET',
+            dataType: 'json'
+        });
+    }
+
+    function getWanLotteries(address) {
+        return $.ajax({
+            url: '/lotteries/getAllByUserWallet?address=' + address,
+            type: 'GET',
+            dataType: 'json'
+        });
+    }
+
+</script>
+<script id="lotteryBoxTemplate" type="text/html">
+    <div class="box lottery-box" data-toggle="modal" data-target="#lotteryModal">
+        <div class="row">
+            <div class="col-md-8 d-flex align-items-center">
+                <div class="lottery-logo">
+                    <img src="data:image/png;base64, {{fundPicture}}" alt="logo">
+                </div>
+                <div class="lottery-descr">
+                    <div class="lottery-heading">
+                        <div class="lottery-name">{{name}}</div>
+                    </div>
+                    <ul class="icon-list">
+                        <li>
+                            <i class="icon-list-icon fas fa-ticket-alt text-warning"></i>
+                            <span>{{ticketPrice}}</span>
+                        </li>
+                        <li>
+                            <i class="icon-list-icon fab fa-ethereum"></i>
+                            <span>{{prizePool}}</span>
+                        </li>
+                        <li>
+                            <i class="icon-list-icon fab fa-ethereum text-primary"></i>
+                            <span>{{donation}}</span>
+                        </li>
+                        <li>
+                            <i class="icon-list-icon far fa-check-double"></i>
+                            <span>{{ticketCount}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 text-right">
+                <div class="time-label">Time Remaining</div>
+                <div class="time-value">{{timeRemaining}}</div>
+            </div>
+        </div>
+    </div>
+</script>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/include :: head"></th:block>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBH</title>
+    <link th:href="@{'https://fonts.googleapis.com/css?family=Lato:400,700,900'}" rel="stylesheet">
+    <link href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" media="screen"/>
+    <link href="../static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" media="screen"/>
+</head>
+<body>
+<header id="header" class="container-fluid d-flex align-items-center">
+    <a th:href="@{/lotteries/getAll}" class="logo">
+        <img src="" th:src="@{/images/logo.svg}" alt="Logo">
+    </a>
+    <ul class="navigation">
+        <li><a th:href="@{/lotteries/getAll}">Lotteries</a></li>
+        <li class="active"><a th:href="@{/games}">Games</a></li>
+        <li><a href="#" data-toggle="modal" data-target="#aboutModal">About Us</a></li>
+    </ul>
+    <button data-toggle="modal" data-target="#checkModal" class="btn-check">
+        Check my Lotteries
+    </button>
+</header>
+
+<div class="hero-games">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="heading d-flex align-items-center text-warning mb-3">
+                    <i class="fas fa-hands-helping mr-3"></i>
+                    <h1>Become Our Partner</h1>
+                </div>
+                <p>Expand the scope of your market reach <br> and integrate your games into our platform! <br> It’s a
+                    mutual benefit.</p>
+                <button data-toggle="modal" data-target="#aboutModal" class="btn btn-warning">Get in Touch</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 main-column">
+            <h2>Games</h2>
+            <div class="game-box game-lotteries">
+                <div class="game-name">Lotteries <span>by TrueFlip Games</span></div>
+                <a href="#" class="btn btn-outline-warning">Play</a>
+            </div>
+            <div class="game-box game-slot">
+                <div class="game-name">Slot Games</div>
+                <a href="#" class="btn btn-outline-warning">Play</a>
+            </div>
+            <div class="game-box game-table">
+                <div class="game-name">Table games</div>
+                <a href="#" class="btn btn-outline-warning">Play</a>
+            </div>
+            <div class="game-box game-sport">
+                <div class="game-name">Fantasy Sports</div>
+                <a href="#" class="btn btn-outline-warning">Play</a>
+            </div>
+        </div>
+        <div class="col-md-4 sidebar">
+            <div class="box">
+                <h2>Our Partners</h2>
+                <ul class="partner-list">
+                    <li>
+                        <a href="#"><img th:src="@{/images/dao-casino-blockchain-protocol-for-gambling-3.png}"
+                                         alt="image description"></a>
+                    </li>
+                    <li>
+                        <a href="#"><img th:src="@{/images/group-3.png}" alt="image description"></a>
+                    </li>
+                    <li>
+                        <a href="#"><img th:src="@{/images/da-logo-color-rgb.png}" alt="image description"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <div class="row no-gutters">
+                <div class="col-md-5">
+                    <div class="about-content">
+                        <img class="about-logo" src="images/logo3.png" alt="Logo">
+                        <p>Charity lottery service for global charity funds, which helps them gather etherium for their
+                            patroned institutions.</p>
+                        <form action="#" class="contact-form">
+                            <h3>Please contact us!</h3>
+                            <div class="form-group">
+                                <label for="inputName">Name</label>
+                                <input type="text" class="form-control" id="inputName" aria-describedby="emailHelp"
+                                       placeholder="Enter name">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail">E-mail</label>
+                                <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp"
+                                       placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputMessage">Message (optional)</label>
+                                <textarea class="form-control" id="inputMessage" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-primary">Send</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-7 about-image">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="checkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-body checkModal">
+                <div class="d-flex align-items-center mb-4">
+                    <i class="fas fa-ticket-alt text-warning mr-3"></i>
+                    <h3>Check My Lottery Tickets</h3>
+                </div>
+                <p class="mb-4">Use the input form below to enter the Wallet ID you made payments from. This will allow
+                    you to quickly see the list of all the lotteries you participated in and check if you won or lost in
+                    them.</p>
+                <form action="#">
+                    <div class="form-group">
+                        <label for="inputName">Enter my Wallet ID:</label>
+                        <input type="text" class="form-control" id="inputName" aria-describedby="emailHelp"
+                               placeholder="Contains 40 symbols, starting with 0x">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Check Tickets</button>
+                </form>
+                <h2 class="mt-5">My Active Lotteries</h2>
+                <div class="lottery-boxes">
+                    <div class="box lottery-box" data-toggle="modal" data-target="#lotteryModal">
+                        <div class="row">
+                            <div class="col-md-8 d-flex align-items-center">
+                                <div class="lottery-logo">
+                                    <img th:src="@{/images/bitmap.png}" alt="logo">
+                                </div>
+                                <div class="lottery-descr">
+                                    <div class="lottery-heading">
+                                        <div class="lottery-name">CharityLife Breast Cancer Treatment</div>
+                                    </div>
+                                    <ul class="icon-list">
+                                        <li>
+                                            <i class="icon-list-icon fas fa-ticket-alt text-warning"></i>
+                                            <span>0,0325</span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon fab fa-ethereum"></i>
+                                            <span>0,0325</span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon fab fa-ethereum text-primary"></i>
+                                            <span>0,0325</span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon far fa-check-double"></i>
+                                            <span>0,0325</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <div class="time-label">Time Remaining</div>
+                                <div class="time-value">42s</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2>Lotteries I Won</h2>
+                <div class="lottery-boxes">
+                    <div class="box lottery-box bg-light" data-toggle="modal" data-target="#lotteryFinishedModal">
+                        <div class="row">
+                            <div class="col-md-8 d-flex align-items-center">
+                                <div class="lottery-logo">
+                                    <img th:src="@{/images/bitmap.png}" alt="logo">
+                                </div>
+                                <div class="lottery-descr">
+                                    <div class="lottery-heading">
+                                        <i class="fas fa-trophy-alt"></i>
+                                        <div class="lottery-name">CharityLife Breast Cancer Treatment</div>
+                                    </div>
+                                    <ul class="icon-list">
+                                        <li>
+                                            <i class="icon-list-icon fas fa-ticket-alt text-warning"></i>
+                                            <span>0,0325</span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon fab fa-ethereum"></i>
+                                            <span>0,0325</span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon fab fa-ethereum text-primary"></i>
+                                            <span>0,0325</span>
+                                        </li>
+                                        <li>
+                                            <i class="icon-list-icon far fa-check-double"></i>
+                                            <span>0,0325</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-right align-self-center">
+                                <div class="finish-value text-warning">+ 2,4425 ETH</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="lotteryFinishedModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="lotteryFinishedModal">
+                <div class="intro text-center">
+                    <span class="fader"></span>
+                    <i class="intro-logo far fa-trophy-alt text-warning mb-4"></i>
+                    <h3 class="mb-4">Lottery Finished!</h3>
+                    <ul class="intro-details">
+                        <li>
+                            <p>Final Prize Pool</p>
+                            <span class="text-warning">2,442 ETH</span>
+                        </li>
+                        <li>
+                            <p>Tickets Sold</p>
+                            <span>243</span>
+                        </li>
+                        <li>
+                            <p>Final Donation</p>
+                            <span class="text-warning">13,0325 ETH</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lottery-details">
+                    <div class="lottery-details-heading mb-4">
+                        <div class="row">
+                            <div class="col-md-9 d-flex align-items-center">
+                                <div class="lottery-logo">
+                                    <img th:src="@{/images/bitmap.png}" alt="logo">
+                                </div>
+                                <div class="lottery-name">CharityLife Breast Cancer Treatment</div>
+                            </div>
+                            <div class="col-md-3 text-right align-self-center">
+                                <div class="time-label">Time Remaining</div>
+                                <div class="time-value text-warning">0s</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-4">In cancer care, doctors specializing in different areas of cancer treatment—such as
+                        surgery, radiation oncology, and medical oncology—work together to create a patient’s overall
+                        treatment plan that combines different types of treatments.</p>
+                    <div class="lottery-details-list row">
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="fas fa-ticket-alt mr-2"></i>
+                                <span>Ticket Price</span>
+                            </div>
+                            <div class="value">
+                                0,0325 ETH
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="fab fa-ethereum mr-2"></i>
+                                <span>Current Prize Pool</span>
+                            </div>
+                            <div class="value">
+                                2,442 ETH
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="fab fa-ethereum mr-2"></i>
+                                <span>Current Donation</span>
+                            </div>
+                            <div class="value">
+                                13,0325 ETH
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="far fa-check-double mr-2"></i>
+                                <span>Issued Tickets Qty</span>
+                            </div>
+                            <div class="value">
+                                243
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid transaction">
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <b>Winner Wallet ID:</b>
+                            <p>0x4a91d42d33e1f6e24b286a52fd6a00f7aac15ee8</p>
+                            <a href="#"><i class="fal fa-link mr-2"></i> <span>View Transaction</span></a>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <b>Donation Sent to:</b>
+                            <p>0x4a91d42d33e1f6e24b286a52fd6a00f7aac15ee8</p>
+                            <a href="#"><i class="fal fa-link mr-2"></i> <span>View Transaction</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="lotteryModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="lotteryFinishedModal">
+                <div class="intro text-center">
+
+                </div>
+                <div class="lottery-details">
+                    <div class="lottery-details-heading mb-4">
+                        <div class="row">
+                            <div class="col-md-9 d-flex align-items-center">
+                                <div class="lottery-logo">
+                                    <img th:src="@{/images/bitmap.png}" alt="logo">
+                                </div>
+                                <div class="lottery-name">CharityLife Breast Cancer Treatment</div>
+                            </div>
+                            <div class="col-md-3 text-right align-self-center">
+                                <div class="time-label">Time Remaining</div>
+                                <div class="time-value">2h30m</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-4">In cancer care, doctors specializing in different areas of cancer treatment—such as
+                        surgery, radiation oncology, and medical oncology—work together to create a patient’s overall
+                        treatment plan that combines different types of treatments.</p>
+                    <div class="lottery-details-list row mb-5">
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="fas fa-ticket-alt mr-2 text-warning"></i>
+                                <span>Ticket Price</span>
+                            </div>
+                            <div class="value">
+                                0,0325 ETH
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="fab fa-ethereum mr-2"></i>
+                                <span>Current Prize Pool</span>
+                            </div>
+                            <div class="value">
+                                2,442 ETH
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="fab fa-ethereum mr-2  text-primary"></i>
+                                <span>Current Donation</span>
+                            </div>
+                            <div class="value">
+                                13,0325 ETH
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="lottery-details-label">
+                                <i class="far fa-check-double mr-2"></i>
+                                <span>Issued Tickets Qty</span>
+                            </div>
+                            <div class="value">
+                                243
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row lottery-detail-forms mb-5">
+                        <div class="col-md-6">
+                            <div class="heading mb-2">
+                                <i class="fas fa-star mr-2"></i>
+                                <span>Participate in this lottery</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputID">Smart Contract ID</label>
+                                <input type="text" class="form-control" id="inputID" aria-describedby="emailHelp"
+                                       placeholder="Contains 40 symbols, starting with 0x">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-copy" data-clipboard-target="#inputID">Copy
+                                ID to Clipboard
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="heading mb-2">
+                                <i class="fas fa-ticket-alt mr-2"></i>
+                                <span>Tickets Calculator</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="qty">Qty of Tickets to buy</label>
+                                        <input class="qty form-control" type="number" min="1" data-price="0.325"
+                                               value="1" id="qty">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="amount">ETH amount to send</label>
+                                        <input type="text" readonly class="form-control" value="0.325 ETH" id="amount">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-outline-primary btn-copy"
+                                    data-clipboard-target="#amount">Copy Amount to Clipboard
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lottery-details-note text-muted">
+                        <h4>How to participate?</h4>
+                        <p>Just copy the Smart Contract ID stated below and send designated ETH amount to it. Please
+                            note that you need to send <b>0,0325 ETH</b> or more, to buy not less than one ticket.
+                            Exceeding sum will be returned to your wallet. Use the calculator provided to calculate
+                            exact ETH amount for the number of tickets you want to purchase.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

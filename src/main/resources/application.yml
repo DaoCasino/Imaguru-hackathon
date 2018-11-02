@@ -1,0 +1,55 @@
+server.port: 8883
+
+spring:
+  datasource:
+    username: dev_user
+    password: dev_password
+    url: jdbc:postgresql://localhost:5432/mh
+    hikari:
+      minimumIdle: 10
+      maximumPoolSize: 50
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    hibernate.ddl-auto: none
+    properties.hibernate.jdbc:
+      lob.non_contextual_creation: true
+      time_zone: "UTC"
+  liquibase:
+    enabled: true
+    change-log: classpath:/changelogs/db.changelog-master.xml
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+lottery-finish:
+  job:
+    cron: "0/10 * * * * *" # Every 10 sec
+
+# Ethereum
+ethereum:
+  geth:
+    connPool:
+      maxConnTotal: 100
+      maxConnPerRoute: 100
+      maxConnIdle: 50
+      maxIdleTimeSeconds: 300 # IMPORTANT!!! Should be less than server.connection-timeout
+      readTimeoutSeconds: 300
+      connectionTimeoutSeconds: 30
+    url: https://ropsten.infura.io/v3/c7a8a611027847ce9a694afd411a2efc
+  owner:
+    wallet:
+      address: "0x256382f4246118d537edc8a850193ad2029be11a"
+      privateKey: "94055137531365178106143832954883504020888134665039254757977829518867813524094"
+  cryptocoin:
+    gas-price: 22000000000
+    gas-limit: 1000000
+  receiptProcessor:
+    sleepDurationMillis: 500
+    attempts: 120
+
+lottery:
+  fee:
+    rate: 10
+    max: 1
