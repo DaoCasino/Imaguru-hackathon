@@ -474,6 +474,8 @@
                 finishedTicketCountDiv.text(data.ticketCount);
                 finishedLotteryDescriptionP.text(data.description);
                 finishedFundPictureImg.attr("src", "data:image/png;base64," + data.fundPicture);
+                winnerAddressP.text(data.winnerAddress);
+                fundAddressP.text(data.fundAddress);
             })
         });
 
@@ -491,8 +493,6 @@
                 activeLotteryDescriptionP.text(data.description);
                 activeFundPictureImg.attr("src", "data:image/png;base64," + data.fundPicture);
                 contractAddressIdInput.val(data.contractAddress);
-                winnerAddressP.text(data.winnerAddress);
-                fundAddressP.text(data.fundAddress);
                 $('#qty').attr('data-price', data.ticketPrice);
                 $('#amount').val(data.ticketPrice + ' ETH');
             })
