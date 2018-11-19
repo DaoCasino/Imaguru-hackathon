@@ -38,7 +38,7 @@ For instance, add functionality based on the elements of our protocol (Signidice
 
  - **Game publication on DAO.Casino platform and its further promotion**
  - **Invitation to the Sandbox team of developers**
- - **Joining the team of the major blockchain Igaming project**
+ - **The possibility of joining the DAO casino team (if our recruiters find a good match)**
 
 Taking into account our goals and priorities, we offer the following nominations:
 
